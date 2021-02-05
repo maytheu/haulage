@@ -15,8 +15,14 @@ mongoose.connect(process.env.DB_URL, {
   useUnifiedTopology: true,
 });
 
+// Make Mongoose attach virtuals whenever calling `JSON.stringify()`,
+// including using `res.json()`
+mongoose.set('toJSON', { virtuals: true });
+
 //check mongoose connection
 console.log(`${mongoose.connection.readyState}: -2 is connected`)
+
+app.use(cookieParser())
 
 //enable post data
 app.use(bodyParser.json());
