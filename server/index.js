@@ -3,11 +3,13 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
 
 require("./models/adminSchema.js");
+require("./models/invoiceSchema.js");
+require("./models/carouselSchema.js");
 
 //connect to DB using mongoose DB object
 mongoose.connect(process.env.DB_URL, {
@@ -17,18 +19,22 @@ mongoose.connect(process.env.DB_URL, {
 
 // Make Mongoose attach virtuals whenever calling `JSON.stringify()`,
 // including using `res.json()`
-mongoose.set('toJSON', { virtuals: true });
+mongoose.set("toJSON", { virtuals: true });
 
 //check mongoose connection
-console.log(`${mongoose.connection.readyState}: -2 is connected`)
+console.log(`${mongoose.connection.readyState}: -2 is connected`);
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 //enable post data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//to serve img files
+app.use(express.static("client/build"));
+
 require("./routes/adminRoute")(app);
+require("./routes/invoiceRoutes")(app);
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));

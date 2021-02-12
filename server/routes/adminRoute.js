@@ -20,7 +20,7 @@ module.exports = (app) => {
     });
 
     data.save((err, admin) => {
-      if (err) return res.status(400).json({ success: false, err });
+      if (err) return res.status(401).json({ success: false, err });
       res.status(200).json({ success: true });
     });
   });
@@ -66,6 +66,27 @@ module.exports = (app) => {
     res.status(200).json({
       isAuth: true,
       isAdmin: true,
+    });
+  });
+
+  //update profle
+  app.post("/api/admin/update", authAdmin, (req, res) => {
+    Admin.findByIdAndUpdate(
+      { _id: req.admin._id },
+      { $set: req.body },
+      { new: true },
+      (err, admin) => {
+        if (err) return res.status(500).json({ success: false, err });
+        return res.status(200).json({ success: true, admin });
+      }
+    );
+  });
+
+  //view admin profile
+  app.get("/api/admin/view", authAdmin, (req, res) => {
+    Admin.findOne({ _id: req.admin._id }, (err, admin) => {
+      if (err) return res.status(500).send({ success: false, err });
+      return res.status(200).send({ success: true, admin });
     });
   });
 
