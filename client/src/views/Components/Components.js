@@ -15,7 +15,6 @@ import SectionCompletedExamples from "./Sections/SectionCompletedExamples.js";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
 
-
 const useStyles = makeStyles(styles);
 
 export default function Components(props) {

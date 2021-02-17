@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
 // @material-ui/core components
@@ -13,14 +13,29 @@ import image1 from "assets/img/bg4.jpg";
 import image2 from "assets/img/bg2.jpg";
 import image3 from "assets/img/bg3.jpg";
 
-import styles from "assets/jss/material-kit-react/views/componentsSections/carouselStyle.js";
+import {useSelector, useDispatch} from 'react-redux'
 
+import { getSlider } from "store/carousel";
+
+import styles from "assets/jss/material-kit-react/views/componentsSections/carouselStyle.js";
 const useStyles = makeStyles(styles);
 
+
 export default function SectionCarousel() {
+  const dispatch = useDispatch()
+
+const images = useSelector(state => state.carousel)
+  const [isImage, setIsImage] = useState(images)
+
+  useEffect(()=>{
+    dispatch(getSlider())
+  }, [])
+  console.log(isImage)
+  console.log(images)
+  
   const classes = useStyles();
   const settings = {
-    // dots: true,
+     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,

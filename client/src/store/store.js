@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
-import authReducers from "./reducers/authReducers";
+import auth from "./auth";
+import carousel from "./carousel";
 
 const reducer = combineReducers({
-  authReducers,
+  auth,
+  carousel,
 });
 
 const store = configureStore({ reducer });

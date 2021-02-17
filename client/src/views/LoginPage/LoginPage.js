@@ -24,6 +24,12 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
 
+ import { useDispatch } from "react-redux";
+
+import useForm from "../../formControls/useForm";
+import formValidate from "../../formControls/formValidate";
+import { loginAdmin } from "store/auth";
+
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
@@ -33,6 +39,24 @@ export default function LoginPage(props) {
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+  const { values, handleChange, handleSubmit, errors } = useForm(
+    login,
+    formValidate
+  );
+const dispatch = useDispatch();
+
+  function login(event) {
+    var submitData = {email: values.email, password: values.password}
+    try{
+      dispatch(loginAdmin(submitData))
+props.history.push('/')
+    }catch(err){
+      props.history.push('/')
+
+    }
+  }
+
   return (
     <div>
       <Header
@@ -54,7 +78,7 @@ export default function LoginPage(props) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h4>Admin Login</h4>
                   </CardHeader>
@@ -62,6 +86,7 @@ export default function LoginPage(props) {
                     <CustomInput
                       labelText="Email..."
                       id="email"
+                      change={handleChange}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -76,12 +101,15 @@ export default function LoginPage(props) {
                     />
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="password"
+                      error={!errors}
+                      change={handleChange}
                       formControlProps={{
                         fullWidth: true,
                       }}
                       inputProps={{
                         type: "password",
+                        required: true,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -92,9 +120,16 @@ export default function LoginPage(props) {
                         autoComplete: "off",
                       }}
                     />
+                    {console.log()}
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      type="submit"
+                      onSubmit={(event) => handleSubmit(event)}
+                    >
                       Login
                     </Button>
                   </CardFooter>
