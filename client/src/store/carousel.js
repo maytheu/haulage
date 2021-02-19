@@ -13,15 +13,33 @@ const slice = createSlice({
     slider: (state, action) => {
       state.carousel = action.payload;
     },
+    sliderText: (state, action) => {
+      state.carousel = action.payload;
+    },
+    errors: (state, action) => {
+      state.invoice = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
 
-const { slider } = slice.actions;
+const { slider, sliderText, errors } = slice.actions;
 
 export const getSlider = () => async (dispatch) => {
-  const res = await axios.get(`${SERVER}carousel`);
-  console.log(res)
-  dispatch(slider(res.data));
+  try {
+    const res = await axios.get(`${SERVER}carousel`);
+    return dispatch(slider(res.data));
+  } catch (err) {
+    return dispatch(errors());
+  }
+};
+
+export const getSliderText = () => async (dispatch) => {
+  try {
+    const res = await axios.get(`${SERVER}carouseL_text`);
+    dispatch(sliderText(res.data));
+  } catch (err) {
+    return dispatch(errors());
+  }
 };

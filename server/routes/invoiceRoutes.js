@@ -14,7 +14,7 @@ const pdf = require("../controller/pdf");
 //multer config
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../client/uploads/"));
+    cb(null, path.join(__dirname, "../../client/public/uploads/"));
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
@@ -27,10 +27,7 @@ module.exports = (app) => {
   //post img inorder to use static url
   app.post("/api/admin/carousel", userAuth, (req, res) => {
     upload(req, res, (err) => {
-      if (err)
-        return res
-          .status(500)
-          .json({ success: false, err: "Please upload a file" });
+      if (err) return res.status(500).send("Please upload a file");
       return res.status(200).json({ success: true, img: req.file.filename });
     });
   });
@@ -39,16 +36,16 @@ module.exports = (app) => {
   app.post("/api/admin/carousel_text", userAuth, (req, res) => {
     const carousel = new Carousel(req.body);
     carousel.save((err, data) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).json({ success: true, data });
     });
   });
 
   //view carousel
   app.get("/api/carousel", (req, res) => {
-    const dir = path.resolve(__dirname + "/../../client/uploads");
+    const dir = path.resolve(__dirname + "/../../client/public/uploads");
     fs.readdir(dir, (err, item) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).send(item);
     });
   });
@@ -56,7 +53,7 @@ module.exports = (app) => {
   //load the text from the db
   app.get("/api/carouseL_text", (req, res) => {
     Carousel.find({}, (err, element) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).send(element);
     });
   });
@@ -64,9 +61,11 @@ module.exports = (app) => {
   //dowload img api
   app.get("/api/carousel/download/:name", (req, res) => {
     const name = req.params.name;
-    const dir = path.resolve(__dirname + `/../../client/uploads/${name}`);
+    const dir = path.resolve(
+      __dirname + `/../../client/public/uploads/${name}`
+    );
     fs.readdir(dir, (err, item) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).download(item);
     });
   });
@@ -88,7 +87,7 @@ module.exports = (app) => {
       amountInWords: req.body.amountInWords,
     });
     data.save((err, invoice) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).json({ success: true, invoice });
     });
   });
@@ -101,7 +100,7 @@ module.exports = (app) => {
       { $set: req.body },
       { new: true },
       (err, update) => {
-        if (err) return res.status(500).json({ success: false, err });
+        if (err) return res.status(500).sen(err);
         return res.status(200).json({ success: true, update });
       }
     );
@@ -109,9 +108,9 @@ module.exports = (app) => {
 
   //view invoice - inv number
   app.post("/api/invoice", (req, res) => {
-    let number = req.query.number;
-    Invoice.findOne({ number }, (err, print) => {
-      if (err) return res.status(500).json({ success: false, err });
+    let number = req.body.number;
+    Invoice.findOne({ number: number }, (err, print) => {
+      if (print === null) return res.status(500).send("Invoice not found");
       return res.status(200).json({ success: true, print });
     });
   });
@@ -119,8 +118,11 @@ module.exports = (app) => {
   app.get("/api/print", (req, res) => {
     let number = req.query.number;
     Invoice.findOne({ number }, (err, print) => {
-      if (err) return res.status(500).json({ success: false, err });
-      const pdfPath = path.join(__dirname, `../../client/pdf/${number}.pdf`);
+      if (print === null) return res.status(500).send("Invoice not found");
+      const pdfPath = path.join(
+        __dirname,
+        `../../client/public/pdf/${number}.pdf`
+      );
       const pdfDoc = new PDFDocument({ margin: 50 });
       try {
         res.setHeader(
@@ -134,10 +136,11 @@ module.exports = (app) => {
         pdf.generateHeader(pdfDoc);
         pdf.generateInvoiceData(pdfDoc, print);
         pdfDoc.pipe(res);
-        pdf.generateFooter(pdfDoc)
+        pdf.generateFooter(pdfDoc);
+        // res.download(pdfDoc)
         pdfDoc.end();
       } catch (err) {
-        return res.status(500).json({ success: false, err });
+        return res.status(500).send(err);
       }
     });
   });
@@ -145,7 +148,7 @@ module.exports = (app) => {
   //view all invoices
   app.get("/api/admin/invoices", userAuth, (req, res) => {
     Invoice.find({}, (err, invoices) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).json({ success: true, invoices });
     });
   });

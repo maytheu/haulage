@@ -24,7 +24,7 @@ import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
 
- import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import useForm from "../../formControls/useForm";
 import formValidate from "../../formControls/formValidate";
@@ -44,16 +44,15 @@ export default function LoginPage(props) {
     login,
     formValidate
   );
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   function login(event) {
-    var submitData = {email: values.email, password: values.password}
-    try{
-      dispatch(loginAdmin(submitData))
-props.history.push('/')
-    }catch(err){
-      props.history.push('/')
-
+    var submitData = { email: values.email, password: values.password };
+    try {
+      dispatch(loginAdmin(submitData));
+      props.history.push("/");
+    } catch (err) {
+      props.history.push("/");
     }
   }
 
@@ -120,7 +119,6 @@ props.history.push('/')
                         autoComplete: "off",
                       }}
                     />
-                    {console.log()}
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button

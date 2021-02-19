@@ -30,8 +30,10 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+express.static('uploads')
+
 //to serve img files
-app.use(express.static("client/build"));
+app.use(express.static("client"));
 
 require("./routes/adminRoute")(app);
 require("./routes/invoiceRoutes")(app);

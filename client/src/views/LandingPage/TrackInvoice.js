@@ -17,7 +17,7 @@ import Parallax from "components/Parallax/Parallax.js";
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
 
 // Sections for this page
-import WorkSection from "./Sections/WorkSection.js";
+import TrackInvoiceSection from "./Sections/TrackInvoiceSection.js";
 
 const dashboardRoutes = [];
 
@@ -58,7 +58,7 @@ export default function TrackInvoice(props) {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <WorkSection />
+          <TrackInvoiceSection />
         </div>
       </div>
       <Footer />

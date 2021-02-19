@@ -20,7 +20,7 @@ module.exports = (app) => {
     });
 
     data.save((err, admin) => {
-      if (err) return res.status(401).json({ success: false, err });
+      if (err) return res.status(401).send(err);
       res.status(200).json({ success: true });
     });
   });
@@ -31,11 +31,11 @@ module.exports = (app) => {
       req.body.email,
       req.body.password,
       (err, admin, reason) => {
-        if (err) return res.status(401).json({ success: false, err });
+        if (err) return res.status(401).send(err);
         //user is valid
         if (admin) {
           admin.generateToken((err, admin) => {
-            if (err) return res.status(401).json({ success: false, err });
+            if (err) return res.status(401).send(err);
             return res
               .cookie("h_auth", admin.token)
               .status(200)
@@ -47,15 +47,10 @@ module.exports = (app) => {
         switch (reason) {
           case reasons.NOT_FOUND:
           case reasons.PASSWORD_INCORRECT:
-            return res
-              .status(401)
-              .json({ success: false, err: "Incorrect email or password" });
+            return res.status(401).send("Incorrect email or password");
           case reasons.MAX_ATTEMPTS:
             //NOFICATION OF ACCOUNT LOCK
-            return res.status(401).json({
-              success: false,
-              err: "Check your email for notification",
-            });
+            return res.status(401).send("Check your email for notification");
         }
       }
     );
@@ -76,7 +71,7 @@ module.exports = (app) => {
       { $set: req.body },
       { new: true },
       (err, admin) => {
-        if (err) return res.status(500).json({ success: false, err });
+        if (err) return res.status(401).send(err);
         return res.status(200).json({ success: true, admin });
       }
     );
@@ -85,7 +80,7 @@ module.exports = (app) => {
   //view admin profile
   app.get("/api/admin/view", authAdmin, (req, res) => {
     Admin.findOne({ _id: req.admin._id }, (err, admin) => {
-      if (err) return res.status(500).send({ success: false, err });
+      if (err) return res.status(500).send(err);
       return res.status(200).send({ success: true, admin });
     });
   });

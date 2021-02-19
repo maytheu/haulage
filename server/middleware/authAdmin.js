@@ -7,14 +7,11 @@ module.exports = (req, res, next) => {
   Admin.findByToken(token, (err, admin) => {
     if (err) return res.status(401).send(err);
     if (!admin) {
-      return res.status(401).json({
-        isAuth: false,
-        error: true,
-      });
+      return res.status(401).send("User not found");
     }
     req.token = token;
     req.admin = admin;
-  
-    next()
+
+    next();
   });
 };

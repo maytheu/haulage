@@ -10,11 +10,9 @@ export default function ProtectedRoute({ component: Component, ...rest }) {
 
   const admin = useSelector((state) => state.auth);
   const [isAdmin, setIsAdmin] = useState(admin);
-  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(authAdmin());
-    setIsLoading(false);
     setIsAdmin(admin);
   }, []);
 

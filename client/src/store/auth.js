@@ -15,21 +15,32 @@ const slice = createSlice({
     adminAuth: (state, action) => {
       state.auth = action.payload;
     },
+    errors: (state, action) => {
+      state.invoice = action.payload;
+    },
   },
 });
 
 //reducers
 export default slice.reducer;
 
-const { login, adminAuth } = slice.actions;
+const { login, adminAuth, errors } = slice.actions;
 
 //actions
 export const loginAdmin = (user) => async (dispatch) => {
-  const res = await axios.post(`${ADMIN_SERVER}login`, user);
-  dispatch(login(res.data));
+  try {
+    const res = await axios.post(`${ADMIN_SERVER}login`, user);
+    return dispatch(login(res.data));
+  } catch (err) {
+    return dispatch(errors());
+  }
 };
 
 export const authAdmin = () => async (dispatch) => {
-  const res = await axios.get(`${ADMIN_SERVER}auth`);
-  dispatch(adminAuth(res.data));
+  try {
+    const res = await axios.get(`${ADMIN_SERVER}auth`);
+    return dispatch(adminAuth(res.data));
+  } catch (err) {
+    return dispatch(errors());
+  }
 };
