@@ -120,10 +120,10 @@ adminSchema.statics.getAuthenticated = function (email, passsword, cb) {
       //password matches
       if (isMatch) {
         //check if account is locked before returning the admin
-        if (!admin.loginAttempt && !admin.lockUntil) {
+        if (!admin.loginAttempt || !admin.lockUntil) {
           //reset attempt and log until info
           var updates = {
-            $set: { loginAttempts: 1 },
+            $set: { loginAttempt: 1 },
             $unset: { lockUntil: 1 },
           };
           return admin.update(updates, function (err) {

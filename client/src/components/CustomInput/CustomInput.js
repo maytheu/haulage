@@ -74,7 +74,7 @@ export default function CustomInput(props) {
           underline: underlineClasses,
         }}
         id={id}
-        onChange={props.change}
+        onChange={change}
         {...inputProps}
       />
     </FormControl>

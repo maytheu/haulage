@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -45,14 +45,19 @@ export default function LoginPage(props) {
     formValidate
   );
   const dispatch = useDispatch();
+  const [isError, setIsError] = useState(false);
 
   function login(event) {
     var submitData = { email: values.email, password: values.password };
-    try {
-      dispatch(loginAdmin(submitData));
-      props.history.push("/");
-    } catch (err) {
-      props.history.push("/");
+    if (errors) {
+      try {
+        dispatch(loginAdmin(submitData));
+        props.history.push("/");
+      } catch (err) {
+        props.history.push("/");
+      }
+    } else {
+      setIsError(true);
     }
   }
 
@@ -101,7 +106,6 @@ export default function LoginPage(props) {
                     <CustomInput
                       labelText="Password"
                       id="password"
-                      error={!errors}
                       change={handleChange}
                       formControlProps={{
                         fullWidth: true,
@@ -133,11 +137,15 @@ export default function LoginPage(props) {
                   </CardFooter>
                 </form>
                 <CardFooter className={classes.cardFooter}>
-                  <Link to="/admin_reset">
-                    <Button simple color="primary">
-                      Forget password
-                    </Button>
-                  </Link>
+                  {isError ? (
+                    ""
+                  ) : (
+                    <Link to="/admin_reset">
+                      <Button simple color="primary">
+                        Forget password
+                      </Button>
+                    </Link>
+                  )}
                 </CardFooter>
               </Card>
             </GridItem>

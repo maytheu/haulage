@@ -6,6 +6,7 @@ const invoiceSchema = mongoose.Schema({
   consignment: { type: String, required: true },
   delivery: { type: Boolean, default: 0 },
   amount: { type: Number, required: true },
+  location: {type: String, required: true },
   amountInWords: { type: String, required: true },
 });
 

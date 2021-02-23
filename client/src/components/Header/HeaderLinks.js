@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React, { useEffect, useState } from "react";
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,22 +17,32 @@ import Button from "components/CustomButtons/Button.js";
 import styles from "assets/jss/material-kit-react/components/headerLinksStyle.js";
 
 import { useDispatch, useSelector } from "react-redux";
-import { authAdmin } from "store/auth";
+import { getLogout } from "store/auth";
 
 const useStyles = makeStyles(styles);
 
-export default function HeaderLinks(props) {
-
-  const  admin  = useSelector((state) => state.auth);
-  const [isAdmin, setIsAdmin] = useState(admin)
+ function HeaderLinks(props) {
+  const admin = useSelector((state) => state.auth);
+  const [isAdmin, setIsAdmin] = useState(admin);
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
- useEffect(() => {
+  useEffect(() => {
    setIsAdmin(admin)
  },[admin])
+ 
+console.log(admin)
+  function logout(event) {
+    event.preventDefault();
+    dispatch(getLogout())
+    //.then(res=>console.log(res))
+    props.history.push("/");
+  }
 
-  if (isAdmin.auth.success) {
+  console.log(isAdmin.auth)
+
+  if (isAdmin.auth.success||isAdmin.auth.isAuth) {
     return (
       <div>
         <ListItem className={classes.listItem}>
@@ -70,6 +80,16 @@ export default function HeaderLinks(props) {
             </Button>
           </Link>
         </ListItem>
+        <ListItem className={classes.listItem}>
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            onClick={logout}
+          >
+            <FindInPage className={classes.icons} />
+            logout
+          </Button>
+        </ListItem>
       </div>
     );
   }
@@ -96,3 +116,5 @@ export default function HeaderLinks(props) {
     </List>
   );
 }
+
+export default withRouter(HeaderLinks)

@@ -21,12 +21,13 @@ var storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage }).single("carousel");
+const upload = multer({ storage }).single("file");
 
 module.exports = (app) => {
   //post img inorder to use static url
   app.post("/api/admin/carousel", userAuth, (req, res) => {
     upload(req, res, (err) => {
+
       if (err) return res.status(500).send("Please upload a file");
       return res.status(200).json({ success: true, img: req.file.filename });
     });
@@ -85,6 +86,7 @@ module.exports = (app) => {
       delivery: req.body.delivery,
       amount: req.body.amount,
       amountInWords: req.body.amountInWords,
+      location: req.body.location
     });
     data.save((err, invoice) => {
       if (err) return res.status(500).send(err);
@@ -106,19 +108,19 @@ module.exports = (app) => {
     );
   });
 
-  //view invoice - inv number
   app.post("/api/invoice", (req, res) => {
     let number = req.body.number;
     Invoice.findOne({ number: number }, (err, print) => {
       if (print === null) return res.status(500).send("Invoice not found");
-      return res.status(200).json({ success: true, print });
-    });
-  });
+      return res.status(200).json(print)
+    })})
 
-  app.get("/api/print", (req, res) => {
+  //view invoice - inv number
+  app.get("/api/pdf", (req, res) => {
     let number = req.query.number;
-    Invoice.findOne({ number }, (err, print) => {
+    Invoice.findOne({ number: number }, (err, print) => {
       if (print === null) return res.status(500).send("Invoice not found");
+      console.log('here')
       const pdfPath = path.join(
         __dirname,
         `../../client/public/pdf/${number}.pdf`
@@ -131,20 +133,20 @@ module.exports = (app) => {
         );
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Content-Type", "application/pdf");
-        res.status(201);
         pdfDoc.pipe(fs.createWriteStream(pdfPath));
         pdf.generateHeader(pdfDoc);
         pdf.generateInvoiceData(pdfDoc, print);
         pdfDoc.pipe(res);
         pdf.generateFooter(pdfDoc);
-        // res.download(pdfDoc)
         pdfDoc.end();
+              return  res.status(201)
       } catch (err) {
         return res.status(500).send(err);
       }
     });
   });
 
+  
   //view all invoices
   app.get("/api/admin/invoices", userAuth, (req, res) => {
     Invoice.find({}, (err, invoices) => {

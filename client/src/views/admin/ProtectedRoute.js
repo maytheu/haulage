@@ -1,4 +1,3 @@
-import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
@@ -15,12 +14,13 @@ export default function ProtectedRoute({ component: Component, ...rest }) {
     dispatch(authAdmin());
     setIsAdmin(admin);
   }, []);
-
+console.log(isAdmin)
+console.log(admin)
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAdmin.auth.success ? (
+        isAdmin.auth.isAuth || isAdmin.auth.success ? (
           <Component {...props} />
         ) : (
           <Redirect to="/admin_login" />

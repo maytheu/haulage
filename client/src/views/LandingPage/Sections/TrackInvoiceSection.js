@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import useForm from "formControls/useForm";
 import formValidate from "formControls/formValidate";
 import { getPostInvoice } from "store/invoice";
-import { getPrintInvoice } from "store/invoice";
 
 const useStyles = makeStyles(styles);
 
@@ -35,6 +34,7 @@ export default function TrackInvoiceSection() {
   function submit(event) {
     setNum(values.number);
     dispatch(getPostInvoice(values)).then((res) => {
+      console.log(invoice)
       if (res.payload === undefined) {
         setSuccess(false);
       } else {
@@ -43,14 +43,6 @@ export default function TrackInvoiceSection() {
     });
   }
   console.log(success);
-  function download(event) {
-    event.preventDefault();
-    try {
-      dispatch(getPrintInvoice(num));
-    } catch (err) {
-      setSuccess(false);
-    }
-  }
 
   return (
     <div className={classes.section}>
@@ -88,10 +80,11 @@ export default function TrackInvoiceSection() {
           {console.log(success)}
           {success === null ? (
             ""
-          ) : success ? (
-            <Button color="success" onClick={download}>
+          ) : success ? (<a href={`/pdf/${num}.pdf`}>
+            <Button color="success" >
               Download
             </Button>
+            </a>
           ) : (
             <h5 className={classes.description} color="danger">
               Invalid Invoice Number

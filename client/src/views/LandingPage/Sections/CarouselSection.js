@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import classNames from "classnames";
+
+import axios from "axios";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,14 +14,58 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import Input from "@material-ui/core/Input";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 import Parallax from "components/Parallax/Parallax";
 
+import useForm from "formControls/useForm";
+import formValidate from "formControls/formValidate";
+
+import { useDispatch } from "react-redux";
+import { getPostSliderText } from "store/carousel";
+
 const useStyles = makeStyles(styles);
 
-export default function CarouselSection() {
+function CarouselSection(props) {
   const classes = useStyles();
+
+  const [upload, setUpload] = useState(false);
+  const [imgName, setImgName] = useState(null);
+  const [success, setSuccess] = useState(true);
+  const [carousel, setCarousel] = useState(null);
+  const dispatch = useDispatch();
+
+  const { values, handleSubmit, handleChange, errors } = useForm(
+    submit,
+    formValidate
+  );
+
+  function submit(event) {
+    if (errors) {
+      dispatch(getPostSliderText(values)).then((res) => {
+        if (res.payload === undefined) {
+          setSuccess(false);
+        } else {
+          props.history.push("/");
+        }
+      });
+    }
+  }
+console.log(upload)
+  function handleUpload(event) {
+    event.preventDefault();
+    const data = new FormData();
+    data.append("file", carousel);
+    axios.post("/api/admin/carousel", data).then((res) => {
+      if (res.data === undefined) {
+        setImgName("Invalid Image Type");
+      } else {
+        setImgName(res.data.img);
+      } 
+    });
+  }
+
   return (
     <div>
       <Parallax filter image={require("assets/img/landing-bg.jpg")}>
@@ -50,23 +97,75 @@ export default function CarouselSection() {
                 tonnage, name and invoice number and know its delivery status We
                 will responde get back to you in a couple of hours.
               </h4>
-              <form>
-                <GridContainer>
-                  <GridItem>
-                    <CustomInput
-                      labelText="Invoice Number"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
-                  </GridItem>
-
-                  <GridItem xs={12} sm={12} md={4}>
-                    <Button color="primary">Track Invoice</Button>
-                  </GridItem>
-                </GridContainer>
-              </form>
+              {!upload ? (
+                <form onSubmit={handleUpload}>
+                  <GridContainer>
+                    <GridItem>
+                      <Input
+                        id="file"
+                        type="file"
+                        name="file"
+                        onChange={(event) => setCarousel(event.target.files[0])}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Button
+                        color="primary"
+                        type="submit"
+                        onSubmit={(event) => handleUpload(event)}
+                      >
+                        Upload Slider
+                      </Button>
+                    </GridItem>
+                  </GridContainer>
+                </form>
+              ) : (
+                <form>
+                  <GridContainer>
+                    <h4>Image Name: {imgName}</h4>
+                    <GridItem>
+                      <CustomInput
+                        labelText="Image File"
+                        id="img"
+                        change={handleChange}
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem>
+                      <CustomInput
+                        labelText="Headline"
+                        id="headline"
+                        change={handleChange}
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem>
+                      <CustomInput
+                        labelText="Description "
+                        id="desc"
+                        change={handleChange}
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Button
+                        color="primary"
+                        type="submit"
+                        onSubmit={(event) => handleSubmit(event)}
+                      >
+                        Submit Slide Detail
+                      </Button>
+                    </GridItem>
+                  </GridContainer>
+                </form>
+              )}
+              {!success ? "Please Check your data" : ""}
             </GridItem>
           </GridContainer>
         </div>
@@ -74,3 +173,4 @@ export default function CarouselSection() {
     </div>
   );
 }
+export default withRouter(CarouselSection);
