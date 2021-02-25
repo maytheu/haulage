@@ -55,28 +55,28 @@ console.log(admin)
           </Link>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <Link to="/track_invoice">
+          <Link to="/track/invoice">
             <Button color="transparent" className={classes.navLink}>
               <FindInPage className={classes.icons} /> Track invoice
             </Button>
           </Link>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <Link to="/admin_profile">
+          <Link to="/admin/profile">
             <Button color="transparent" className={classes.navLink}>
               <FindInPage className={classes.icons} /> View Profile
             </Button>
           </Link>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <Link to="/admin_add_invoice">
+          <Link to="/admin-add-invoice">
             <Button color="transparent" className={classes.navLink}>
               <FindInPage className={classes.icons} /> Add invoice
             </Button>
           </Link>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <Link to="/admin_add_carousel">
+          <Link to="/admin-add-carousel">
             <Button color="transparent" className={classes.navLink}>
               <FindInPage className={classes.icons} /> add carousel
             </Button>
@@ -108,7 +108,7 @@ console.log(admin)
         </ListItem>
 
         <ListItem className={classes.listItem}>
-          <Link to="/track_invoice">
+          <Link to="/track/invoice">
             <Button color="transparent" className={classes.navLink}>
               <FindInPage className={classes.icons} /> track your invoice
             </Button>

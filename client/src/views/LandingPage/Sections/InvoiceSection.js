@@ -29,7 +29,7 @@ function InvoiceSection(props) {
   const [invoice, setInvoice] = useState(null);
   const invoices = useSelector((state) => state.invoice);
   const [isEdit, setIsEdit] = useState({});
-  const [delivery, setDelivery]=useState(false)
+  const [delivery, setDelivery] = useState(false);
 
   const { values, handleSubmit, handleChange, errors } = useForm(
     submit,
@@ -40,7 +40,6 @@ function InvoiceSection(props) {
   useEffect(() => {
     if (props.edit) {
       dispatch(getInvoice(props.edit)).then((res) => {
-        console.log(res.payload);
         setIsEdit({
           company: res.payload.update.company,
           amount: res.payload.update.amount,
@@ -53,7 +52,6 @@ function InvoiceSection(props) {
     }
     dispatch(getInvoices());
   }, [props.edit]);
-  console.log(isEdit);
 
   function editChange(event) {
     setIsEdit({ ...isEdit, [event.target.id]: event.target.value });
@@ -83,13 +81,12 @@ function InvoiceSection(props) {
 
   function editSubmit(event) {
     event.preventDefault();
-    console.log(isEdit);
-    if (formValidate( isEdit)) {
-      dispatch(getInvoice(props.edit,isEdit)).then((res) => {
+    if (formValidate(isEdit)) {
+      dispatch(getInvoice(props.edit, isEdit)).then((res) => {
         if (res.payload === undefined) {
           setInvoice("Please Check your data, can't update info");
         } else {
-          props.history.push("/admin_add_invoice");
+          props.history.push("/admin-add-invoice");
         }
       });
     } else {
@@ -147,27 +144,27 @@ function InvoiceSection(props) {
               </GridItem>
               {props.edit ? (
                 <GridItem>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={delivery}
-                      onChange={(event) => setDelivery( event.target.checked)}
-                      classes={{
-                        switchBase: classes.switchBase,
-                        checked: classes.switchChecked,
-                        thumb: classes.switchIcon,
-                        track: classes.switchBar,
-                      }}
-                    />
-                  }
-                  classes={{
-                    label: classes.label,
-                  }}
-                  id="delivery"
-                  label={`Delivery Status is ${isEdit.delivery}`}
-                />
-              </GridItem>
-            ) : (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={delivery}
+                        onChange={(event) => setDelivery(event.target.checked)}
+                        classes={{
+                          switchBase: classes.switchBase,
+                          checked: classes.switchChecked,
+                          thumb: classes.switchIcon,
+                          track: classes.switchBar,
+                        }}
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                    }}
+                    id="delivery"
+                    label={`Delivery Status is ${isEdit.delivery}`}
+                  />
+                </GridItem>
+              ) : (
                 <GridItem>
                   <FormControlLabel
                     control={

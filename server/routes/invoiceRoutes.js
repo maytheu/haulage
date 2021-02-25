@@ -35,7 +35,6 @@ module.exports = (app) => {
 
   app.get("/api/carousel/:img", (req, res) => {
     const img = req.params.img;
-    console.log(img);
     res.sendFile(path.join(__dirname, `../uploads/${img}`));
   });
 
@@ -58,7 +57,7 @@ module.exports = (app) => {
 
   app.get("/api/admin/del/carousel_text", userAuth, (req, res) => {
     const image = req.query.image;
-    fs.unlink(path.join(__dirname, `../uploads/${img}`), (err) => {
+    fs.unlink(path.join(__dirname, `../uploads/${image}`), (err) => {
       if (err) return res.status(500).send("Error deleting image");
       Carousel.findOneAndDelete({ img: image }, (err) => {
         if (err) return res.status(500).send("Error deleting slide");
@@ -114,8 +113,16 @@ module.exports = (app) => {
 
   app.get("/api/invoice/print/:number", (req, res) => {
     const number = req.params.number;
-    return res.download(path.resolve(__dirname, `../pdf/${number}.pdf`));
-    //return fs.unlink(path.resolve(__dirname, `../pdf/${number}.pdf`))
+    return res.download(
+      path.join(__dirname, `../pdf/${number}.pdf`),
+      `${number}.pdf`,
+      (err) => {
+        if (err) return res.status(500).send("Cant find file");
+        fs.unlink(path.join(__dirname, `../pdf/${number}.pdf`), (err) => {
+          if (err) return res.status(500).send("Cant find file");
+        });
+      }
+    );
   });
 
   //view invoice - inv number

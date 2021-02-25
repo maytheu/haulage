@@ -19,6 +19,9 @@ const slice = createSlice({
     postSliderText: (state, action) => {
       state.carousel = action.payload;
     },
+    deleteSlide: (state, action) => {
+      state.carousel = action.payload;
+    },
     errors: (state, action) => {
       state.carousel = action.payload;
     },
@@ -27,12 +30,17 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-const { slider, sliderText, postSliderText, errors } = slice.actions;
+const {
+  slider,
+  sliderText,
+  postSliderText,
+  deleteSlide,
+  errors,
+} = slice.actions;
 
 export const getSlider = (img) => async (dispatch) => {
   try {
     const res = await axios.get(`${SERVER}carousel/${img}`);
-    console.log(res)
     return dispatch(slider(res.data));
   } catch (err) {
     return dispatch(errors());
@@ -50,11 +58,20 @@ export const getSliderText = () => async (dispatch) => {
 
 export const getPostSliderText = (data) => async (dispatch) => {
   try {
-    console.log(data)
     const res = await axios.post(`${ADMIN_SERVER}carousel_text`, data);
-    console.log(res)
     return dispatch(postSliderText(res.data));
   } catch (err) {
     return dispatch(errors());
   }
-}
+};
+
+export const getDelete = (img) => async (dispatch) => {
+  try {
+    await axios.get(
+      `${ADMIN_SERVER}del/carousel_text?image=${img}`
+    );
+    return dispatch(deleteSlide());
+  } catch (err) {
+    return dispatch(errors());
+  }
+};

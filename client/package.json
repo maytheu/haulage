@@ -12,6 +12,7 @@
     "classnames": "2.2.6",
     "history": "4.10.1",
     "http-proxy-middleware": "^1.0.6",
+    "js-file-download": "^0.4.12",
     "moment": "2.26.0",
     "node-sass": "4.14.1",
     "nouislider": "14.5.0",
@@ -23,7 +24,8 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
     "react-slick": "0.26.1",
-    "react-swipeable-views": "0.13.9"
+    "react-swipeable-views": "0.13.9",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@babel/cli": "7.10.1",

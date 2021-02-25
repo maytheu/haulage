@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 // react component for creating beautiful carousel
-import Carousel from "react-slick";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -11,7 +13,7 @@ import Card from "components/Card/Card.js";
 
 import { useDispatch } from "react-redux";
 
-import { getSlider, getSliderText } from "store/carousel";
+import { getSliderText } from "store/carousel";
 
 import styles from "assets/jss/material-kit-react/views/componentsSections/carouselStyle.js";
 
@@ -19,28 +21,16 @@ const useStyles = makeStyles(styles);
 
 export default function SectionCarousel() {
   const dispatch = useDispatch();
-  let rootUrl = "http://localhost:3000/uploads/";
 
-  //const images = useSelector((state) => state.carousel);
-  const [isImage, setIsImage] = useState("");
-  console.log(isImage);
+  const [isImage, setIsImage] = useState([]);
 
   useEffect(() => {
-    /// dispatch(getSlider());
     dispatch(getSliderText()).then((res) => {
       if (res.payload !== undefined) {
         setIsImage(res.payload);
       }
     });
   }, []);
-
-  function imgSrc(img) {
-    dispatch(getSlider(img)).then((img) => {
-      console.log(img);
-    });
-  }
-
-  console.log(isImage);
 
   const classes = useStyles();
   const settings = {
@@ -52,27 +42,22 @@ export default function SectionCarousel() {
     autoplay: true,
   };
 
-  function viewSlide() {
-    return (
-      <div>
-        {isImage.length === 0
-          ? ""
-          : isImage.map((image, i) => (
-              <div key={i}>
-                {/* {imgSrc(image.img)} */}
-                <img
-                  src={`${rootUrl}${image.img}`}
-                  alt={image.img}
-                  className="slick-image"
-                />
-                <div className="slick-caption">
-                  <h4>{image.desc}</h4>
-                </div>
-              </div>
-            ))}
-      </div>
-    );
-  }
+  const viewSlide = () => {
+    return isImage.map((image) => {
+      return (
+        <div key={image.img}>
+          <img
+            src={`/api/carousel/${image.img}`}
+            alt={image.img}
+            className="slick-image"
+          />
+          <div className="slick-caption">
+            <h4>{image.desc}</h4>
+          </div>
+        </div>
+      );
+    });
+  };
 
   return (
     <div className={classes.section}>
@@ -80,9 +65,7 @@ export default function SectionCarousel() {
         <GridContainer>
           <GridItem>
             <Card carousel>
-              <Carousel {...settings}>
-                <div>{viewSlide()}</div>
-              </Carousel>
+              <Slider {...settings}>{viewSlide()}</Slider>
             </Card>
           </GridItem>
         </GridContainer>

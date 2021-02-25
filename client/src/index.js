@@ -27,19 +27,20 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={hist}>
       <Switch>
-        <ProtectedRoute path="/admin_add_carousel" component={AddCarousel} />
-        <ProtectedRoute path="/admin_add_invoice" component={AddInvoice} />
+        <ProtectedRoute path="/admin-add-carousel" component={AddCarousel} />
+        <ProtectedRoute path="/admin-add-invoice" component={AddInvoice} />
         <ProtectedRoute path="/admin-edit-invoice/:number" component={AddInvoice} />
-        <ProtectedRoute path="/admin_profile" component={ViewProfile} />
-        <ProtectedRoute path="/admin_edit" component={EditProfile} />
-        <Route path="/admin_recover" component={ResetPassword} />
-        <Route path="/admin_reset" component={RecoverPassword} />
+        <ProtectedRoute path="/admin/profile" component={ViewProfile} />
+        <ProtectedRoute path="/admin/edit" component={EditProfile} />
+        <Route path="/admin/recover" component={ResetPassword} />
+        <Route path="/admin/reset" component={RecoverPassword} />
         <Route path="/contact" component={Contacts} />
-        <Route path="/admin_login" component={LoginPage} />
-        <Route path="/track_invoice" exact component={TrackInvoice} />
+        <Route path="/admin/login" component={LoginPage} />
+        <Route path="/track/invoice" exact component={TrackInvoice} />
         <Route path="/" component={Components} />
       </Switch>
     </Router>
   </Provider>,
   document.getElementById("root")
 );
+ 

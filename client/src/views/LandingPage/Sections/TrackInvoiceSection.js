@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles"; 
+import { makeStyles } from "@material-ui/core/styles";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -10,7 +10,7 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useForm from "formControls/useForm";
 import formValidate from "formControls/formValidate";
 import { getPostInvoice, getPrintInvoice } from "store/invoice";
@@ -26,28 +26,27 @@ export default function TrackInvoiceSection() {
   );
 
   const dispatch = useDispatch();
-  const invoice = useSelector((state) => state.invoice);
 
   const [num, setNum] = useState(null);
   const [success, setSuccess] = useState(null);
 
   function submit(event) {
-    setNum(values.number);
-    dispatch(getPostInvoice(values)).then((res) => {
-      console.log(invoice)
-      if (res.payload === undefined) {
-        setSuccess(false);
-      } else {
-        setSuccess(true);
-      }
-    });
+    if (errors) {
+      setNum(values.number);
+      dispatch(getPostInvoice(values)).then((res) => {
+        if (res.payload === undefined) {
+          setSuccess(false);
+        } else {
+          setSuccess(true);
+        }
+      });
+    }
   }
-  console.log(success);
 
-function download(event){
-  event.preventDefault()
-  dispatch(getPrintInvoice(num))
-}
+  function download(event) {
+    event.preventDefault();
+    dispatch(getPrintInvoice(num));
+  }
 
   return (
     <div className={classes.section}>
@@ -82,7 +81,6 @@ function download(event){
               </GridItem>
             </GridContainer>
           </form>
-          {console.log(success)}
           {success === null ? (
             ""
           ) : success ? (

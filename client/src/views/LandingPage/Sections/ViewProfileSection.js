@@ -56,7 +56,7 @@ export default function ViewProfileSection() {
                 <p className={classes.description}> phone: {profile.admin.phone} </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Link to="/admin_edit">
+                <Link to="/admin/edit">
                   <Button color="primary">Edit Profile</Button>
                 </Link>
               </GridItem>

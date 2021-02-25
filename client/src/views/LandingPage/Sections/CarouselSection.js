@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
 
@@ -22,8 +22,9 @@ import Parallax from "components/Parallax/Parallax";
 import useForm from "formControls/useForm";
 import formValidate from "formControls/formValidate";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPostSliderText } from "store/carousel";
+import { getDelete } from "store/carousel";
 
 const useStyles = makeStyles(styles);
 
@@ -35,16 +36,18 @@ function CarouselSection(props) {
   const [success, setSuccess] = useState(true);
   const [carousel, setCarousel] = useState(null);
   const dispatch = useDispatch();
+  const images = useSelector((state) => state.carousel);
 
   const { values, handleChange, handleSubmit, errors } = useForm(
     submit,
     formValidate
   );
 
+  useEffect(() => {}, [images]);
+
   function submit(event) {
     if (errors) {
       dispatch(getPostSliderText(values)).then((res) => {
-        console.log(res)
         if (res.payload === undefined) {
           setSuccess(false);
         } else {
@@ -53,7 +56,7 @@ function CarouselSection(props) {
       });
     }
   }
-  console.log(upload);
+
   function handleUpload(event) {
     event.preventDefault();
     const data = new FormData();
@@ -66,6 +69,11 @@ function CarouselSection(props) {
         setUpload(true);
       }
     });
+  }
+
+  function handleDelete(img) {
+    dispatch(getDelete(img));
+    props.history.push("/");
   }
 
   return (
@@ -114,11 +122,22 @@ function CarouselSection(props) {
                       Upload Slider
                     </Button>
                   </GridItem>
+                  <h4 className={classes.description}>
+                    View Slides <em>Click to delete</em>
+                  </h4>
+                  {images.carousel.map((image) => (
+                    <div
+                      key={image.img}
+                      onClick={() => handleDelete(image.img)}
+                    >{`${image.img}-${image.headline}`}</div>
+                  ))}
                 </GridContainer>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <GridContainer>
-                    <h4>Image Name: {imgName}</h4>
+                    <h4 className={classes.description}>
+                      Image Name: {imgName}
+                    </h4>
                     <GridItem>
                       <CustomInput
                         labelText="Image File"

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import download from 'js-file-download';
 
 const ADMIN_SERVER = "/api/admin/";
 const SERVER = "/api/";
@@ -54,9 +55,9 @@ export const getPostInvoice = (number) => async (dispatch) => {
 
 export const getPrintInvoice = (number) => async (dispatch) => {
   try {
-    const res = await axios.get(`${SERVER}invoice/print/${number}`);
+    const res = await axios.get(`${SERVER}invoice/print/${number}`, { responseType: 'blob' });
     console.log(res);
-    dispatch(printInvoice());
+    dispatch(printInvoice(download(res.data, `${number}.pdf`)));
   } catch (err) {
     return dispatch(errors());
   }
@@ -81,8 +82,6 @@ export const getInvoices = () => async (dispatch) => {
 };
 
 export const getInvoice = (data, edit) => async (dispatch) => {
-  console.log(data)
-  console.log(edit)
   try {
     const res = await axios.post(`${ADMIN_SERVER}edit_invoice?number=${data}`, edit);
     return dispatch(invoice(res.data));

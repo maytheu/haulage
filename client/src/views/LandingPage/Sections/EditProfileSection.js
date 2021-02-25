@@ -50,7 +50,7 @@ function EditProfileSection(props) {
     if (formValidate(isValues)) {
       dispatch(getEditProfile(isValues)).then((res) => {
         if (res.payload !== undefined) {
-          props.history.push("/admin_profile");
+          props.history.push("/admin/profile");
         } else {
           setSuccess(true);
           setMessage("Error updating form");
