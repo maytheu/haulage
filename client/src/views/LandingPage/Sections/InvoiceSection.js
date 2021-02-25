@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -18,17 +19,17 @@ import styles from "assets/jss/material-kit-react/views/landingPageSections/work
 
 import useForm from "formControls/useForm";
 import formValidate from "formControls/formValidate";
-import { getSaveInvoice, getInvoices } from "store/invoice";
-import { Link } from "react-router-dom";
+import { getSaveInvoice, getInvoices, getInvoice } from "store/invoice";
 
 const useStyles = makeStyles(styles);
 
-export default function InvoiceSection() {
+function InvoiceSection(props) {
   const classes = useStyles();
   const [checkedA, setCheckedA] = React.useState(false);
   const [invoice, setInvoice] = useState(null);
-  //const [invoices, setInvoices] = useState(null);
   const invoices = useSelector((state) => state.invoice);
+  const [isEdit, setIsEdit] = useState({});
+  const [delivery, setDelivery]=useState(false)
 
   const { values, handleSubmit, handleChange, errors } = useForm(
     submit,
@@ -37,8 +38,26 @@ export default function InvoiceSection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (props.edit) {
+      dispatch(getInvoice(props.edit)).then((res) => {
+        console.log(res.payload);
+        setIsEdit({
+          company: res.payload.update.company,
+          amount: res.payload.update.amount,
+          amountInWords: res.payload.update.amountInWords,
+          location: res.payload.update.location,
+          delivery: res.payload.update.delivery,
+          consignment: res.payload.update.consignment,
+        });
+      });
+    }
     dispatch(getInvoices());
-  }, []);
+  }, [props.edit]);
+  console.log(isEdit);
+
+  function editChange(event) {
+    setIsEdit({ ...isEdit, [event.target.id]: event.target.value });
+  }
 
   function submit(event) {
     if (errors) {
@@ -62,18 +81,43 @@ export default function InvoiceSection() {
     }
   }
 
+  function editSubmit(event) {
+    event.preventDefault();
+    console.log(isEdit);
+    if (formValidate( isEdit)) {
+      dispatch(getInvoice(props.edit,isEdit)).then((res) => {
+        if (res.payload === undefined) {
+          setInvoice("Please Check your data, can't update info");
+        } else {
+          props.history.push("/admin_add_invoice");
+        }
+      });
+    } else {
+      setInvoice("Please Check your data, can't update info");
+    }
+  }
+
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
-          <h2 className={classes.title}>Add Invoice</h2>
-          <form onSubmit={handleSubmit}>
+          <h2 className={classes.title}>
+            {props.edit ? "Edit Invoice" : "Add Invoice"}
+          </h2>
+          <form
+            onSubmit={
+              props.edit
+                ? (event) => editSubmit(event)
+                : (event) => handleSubmit(event)
+            }
+          >
             <GridContainer>
               <GridItem>
                 <CustomInput
                   labelText="Company"
                   id="company"
-                  change={handleChange}
+                  value={isEdit.company}
+                  change={props.edit ? editChange : handleChange}
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -83,7 +127,8 @@ export default function InvoiceSection() {
                 <CustomInput
                   labelText="Consignment"
                   id="consignment"
-                  change={handleChange}
+                  value={isEdit.consignment}
+                  change={props.edit ? editChange : handleChange}
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -93,18 +138,20 @@ export default function InvoiceSection() {
                 <CustomInput
                   labelText="Location"
                   id="location"
-                  change={handleChange}
+                  value={isEdit.location}
+                  change={props.edit ? editChange : handleChange}
                   formControlProps={{
                     fullWidth: true,
                   }}
                 />
               </GridItem>
-              <GridItem>
+              {props.edit ? (
+                <GridItem>
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={checkedA}
-                      onChange={(event) => setCheckedA(event.target.checked)}
+                      checked={delivery}
+                      onChange={(event) => setDelivery( event.target.checked)}
                       classes={{
                         switchBase: classes.switchBase,
                         checked: classes.switchChecked,
@@ -117,14 +164,38 @@ export default function InvoiceSection() {
                     label: classes.label,
                   }}
                   id="delivery"
-                  label={`Delivery Status is ${checkedA}`}
+                  label={`Delivery Status is ${isEdit.delivery}`}
                 />
               </GridItem>
+            ) : (
+                <GridItem>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={checkedA}
+                        onChange={(event) => setCheckedA(event.target.checked)}
+                        classes={{
+                          switchBase: classes.switchBase,
+                          checked: classes.switchChecked,
+                          thumb: classes.switchIcon,
+                          track: classes.switchBar,
+                        }}
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                    }}
+                    id="delivery"
+                    label={`Delivery Status is ${checkedA}`}
+                  />
+                </GridItem>
+              )}
               <GridItem>
                 <CustomInput
                   labelText="Amount"
+                  value={isEdit.amount}
                   id="amount"
-                  change={handleChange}
+                  change={props.edit ? editChange : handleChange}
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -134,7 +205,8 @@ export default function InvoiceSection() {
                 <CustomInput
                   labelText="Amount in Words"
                   id="amountInWords"
-                  change={handleChange}
+                  value={isEdit.amountInWords}
+                  change={props.edit ? editChange : handleChange}
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -144,9 +216,13 @@ export default function InvoiceSection() {
                 <Button
                   color="primary"
                   type="submit"
-                  onSubmit={(event) => handleSubmit(event)}
+                  onSubmit={
+                    props.edit
+                      ? (event) => editSubmit(event)
+                      : (event) => handleSubmit(event)
+                  }
                 >
-                  Add New Invoice
+                  {props.edit ? "Update Invoice" : "Add New Invoice"}
                 </Button>
               </GridItem>
             </GridContainer>
@@ -165,7 +241,7 @@ export default function InvoiceSection() {
                 <div key={i}>
                   <h4 className={classes.description}>
                     <Link
-                      to={`/${number.number}`}
+                      to={`/admin-edit-invoice/${number.number}`}
                     >{`${number.company}-${number.consignment}-${number.location}`}</Link>
                   </h4>
                 </div>
@@ -175,3 +251,5 @@ export default function InvoiceSection() {
     </div>
   );
 }
+
+export default withRouter(InvoiceSection);

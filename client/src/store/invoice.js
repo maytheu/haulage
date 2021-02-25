@@ -22,6 +22,9 @@ const slice = createSlice({
     invoices: (state, action) => {
       state.invoice = action.payload;
     },
+    invoice: (state, action) => {
+      state.invoice = action.payload;
+    },
     errors: (state, action) => {
       state.invoice = action.payload;
     },
@@ -35,6 +38,7 @@ const {
   printInvoice,
   saveInvoice,
   invoices,
+  invoice,
   errors,
 } = slice.actions;
 
@@ -50,8 +54,8 @@ export const getPostInvoice = (number) => async (dispatch) => {
 
 export const getPrintInvoice = (number) => async (dispatch) => {
   try {
-    //const res =
-    await axios.get(`${SERVER}invoice/print/${number}`);
+    const res = await axios.get(`${SERVER}invoice/print/${number}`);
+    console.log(res);
     dispatch(printInvoice());
   } catch (err) {
     return dispatch(errors());
@@ -71,6 +75,17 @@ export const getInvoices = () => async (dispatch) => {
   try {
     const res = await axios.get(`${ADMIN_SERVER}invoices`);
     return dispatch(invoices(res.data));
+  } catch (err) {
+    return dispatch(errors());
+  }
+};
+
+export const getInvoice = (data, edit) => async (dispatch) => {
+  console.log(data)
+  console.log(edit)
+  try {
+    const res = await axios.post(`${ADMIN_SERVER}edit_invoice?number=${data}`, edit);
+    return dispatch(invoice(res.data));
   } catch (err) {
     return dispatch(errors());
   }

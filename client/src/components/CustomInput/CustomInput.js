@@ -26,6 +26,7 @@ export default function CustomInput(props) {
     inputRootCustomClasses,
     success,
     change,
+    value,
   } = props;
 
   const labelClasses = classNames({
@@ -62,6 +63,7 @@ export default function CustomInput(props) {
           htmlFor={id}
           {...labelProps}
           onChange={change}
+          value={value}
         >
           {labelText}
         </InputLabel>
@@ -75,6 +77,7 @@ export default function CustomInput(props) {
         }}
         id={id}
         onChange={change}
+        value={value}
         {...inputProps}
       />
     </FormControl>

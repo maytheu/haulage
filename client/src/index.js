@@ -29,6 +29,7 @@ ReactDOM.render(
       <Switch>
         <ProtectedRoute path="/admin_add_carousel" component={AddCarousel} />
         <ProtectedRoute path="/admin_add_invoice" component={AddInvoice} />
+        <ProtectedRoute path="/admin-edit-invoice/:number" component={AddInvoice} />
         <ProtectedRoute path="/admin_profile" component={ViewProfile} />
         <ProtectedRoute path="/admin_edit" component={EditProfile} />
         <Route path="/admin_recover" component={ResetPassword} />

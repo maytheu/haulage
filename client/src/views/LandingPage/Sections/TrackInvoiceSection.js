@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles"; 
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -13,7 +13,7 @@ import styles from "assets/jss/material-kit-react/views/landingPageSections/work
 import { useDispatch, useSelector } from "react-redux";
 import useForm from "formControls/useForm";
 import formValidate from "formControls/formValidate";
-import { getPostInvoice } from "store/invoice";
+import { getPostInvoice, getPrintInvoice } from "store/invoice";
 
 const useStyles = makeStyles(styles);
 
@@ -43,6 +43,11 @@ export default function TrackInvoiceSection() {
     });
   }
   console.log(success);
+
+function download(event){
+  event.preventDefault()
+  dispatch(getPrintInvoice(num))
+}
 
   return (
     <div className={classes.section}>
@@ -80,11 +85,10 @@ export default function TrackInvoiceSection() {
           {console.log(success)}
           {success === null ? (
             ""
-          ) : success ? (<a href={`/pdf/${num}.pdf`}>
-            <Button color="success" >
+          ) : success ? (
+            <Button color="success" onClick={download}>
               Download
             </Button>
-            </a>
           ) : (
             <h5 className={classes.description} color="danger">
               Invalid Invoice Number

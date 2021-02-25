@@ -7,20 +7,32 @@ import { authAdmin } from "store/auth";
 export default function ProtectedRoute({ component: Component, ...rest }) {
   const dispatch = useDispatch();
 
+  //const [isAdmin, setIsAdmin] = useState(false);
   const admin = useSelector((state) => state.auth);
-  const [isAdmin, setIsAdmin] = useState(admin);
 
-  useEffect(() => {
-    dispatch(authAdmin());
-    setIsAdmin(admin);
-  }, []);
-console.log(isAdmin)
-console.log(admin)
+
+  /*useEffect(() => {
+    dispatch(authAdmin())
+    //.then((res) => {
+      //if (res.payload !== undefined) {
+        // <Redirect to="/admin_login" />
+
+    /*  } else {
+        console.log(res.payload);
+        // setIsAdmin(true);
+      }
+  //  });
+    // setIsAdmin(admin);
+    
+  }, []);*/
+  console.log(admin);
+  // console.log(admin);
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAdmin.auth.isAuth || isAdmin.auth.success ? (
+        admin.auth.success ? (
+          //|| isAdmin.auth.success
           <Component {...props} />
         ) : (
           <Redirect to="/admin_login" />

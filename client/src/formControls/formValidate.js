@@ -6,5 +6,8 @@ export default function formValidate(values) {
   if (values.amount) {
     isValid = !isNaN(values.amount) && isValid;
   }
+  if (values.phone) {
+    isValid = !isNaN(values.phone) && isValid;
+  }
   return isValid;
 }

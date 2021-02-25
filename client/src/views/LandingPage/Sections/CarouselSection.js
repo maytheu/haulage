@@ -36,7 +36,7 @@ function CarouselSection(props) {
   const [carousel, setCarousel] = useState(null);
   const dispatch = useDispatch();
 
-  const { values, handleSubmit, handleChange, errors } = useForm(
+  const { values, handleChange, handleSubmit, errors } = useForm(
     submit,
     formValidate
   );
@@ -44,6 +44,7 @@ function CarouselSection(props) {
   function submit(event) {
     if (errors) {
       dispatch(getPostSliderText(values)).then((res) => {
+        console.log(res)
         if (res.payload === undefined) {
           setSuccess(false);
         } else {
@@ -52,7 +53,7 @@ function CarouselSection(props) {
       });
     }
   }
-console.log(upload)
+  console.log(upload);
   function handleUpload(event) {
     event.preventDefault();
     const data = new FormData();
@@ -62,7 +63,8 @@ console.log(upload)
         setImgName("Invalid Image Type");
       } else {
         setImgName(res.data.img);
-      } 
+        setUpload(true);
+      }
     });
   }
 
@@ -98,29 +100,23 @@ console.log(upload)
                 will responde get back to you in a couple of hours.
               </h4>
               {!upload ? (
-                <form onSubmit={handleUpload}>
-                  <GridContainer>
-                    <GridItem>
-                      <Input
-                        id="file"
-                        type="file"
-                        name="file"
-                        onChange={(event) => setCarousel(event.target.files[0])}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <Button
-                        color="primary"
-                        type="submit"
-                        onSubmit={(event) => handleUpload(event)}
-                      >
-                        Upload Slider
-                      </Button>
-                    </GridItem>
-                  </GridContainer>
-                </form>
+                <GridContainer>
+                  <GridItem>
+                    <Input
+                      id="file"
+                      type="file"
+                      name="file"
+                      onChange={(event) => setCarousel(event.target.files[0])}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <Button color="primary" onClick={handleUpload}>
+                      Upload Slider
+                    </Button>
+                  </GridItem>
+                </GridContainer>
               ) : (
-                <form>
+                <form onSubmit={handleSubmit}>
                   <GridContainer>
                     <h4>Image Name: {imgName}</h4>
                     <GridItem>

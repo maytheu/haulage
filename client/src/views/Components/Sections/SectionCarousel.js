@@ -9,11 +9,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 
-import image1 from "assets/img/bg4.jpg";
-import image2 from "assets/img/bg2.jpg";
-import image3 from "assets/img/bg3.jpg";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getSlider, getSliderText } from "store/carousel";
 
@@ -25,21 +21,26 @@ export default function SectionCarousel() {
   const dispatch = useDispatch();
   let rootUrl = "http://localhost:3000/uploads/";
 
-  const images = useSelector((state) => state.carousel);
-  const [isImage, setIsImage] = useState(images);
+  //const images = useSelector((state) => state.carousel);
+  const [isImage, setIsImage] = useState("");
   console.log(isImage);
 
   useEffect(() => {
     /// dispatch(getSlider());
-    dispatch(getSliderText());
-    setIsImage(images);
+    dispatch(getSliderText()).then((res) => {
+      if (res.payload !== undefined) {
+        setIsImage(res.payload);
+      }
+    });
   }, []);
-  console.log(images.carousel);
-  console.log(isImage);
 
-  // function viewSlide() {
-  //   return images.carousel.length == 0 ? "" : "ap(image =>";
-  // }
+  function imgSrc(img) {
+    dispatch(getSlider(img)).then((img) => {
+      console.log(img);
+    });
+  }
+
+  console.log(isImage);
 
   const classes = useStyles();
   const settings = {
@@ -51,13 +52,14 @@ export default function SectionCarousel() {
     autoplay: true,
   };
 
-  function viewSlide () {
+  function viewSlide() {
     return (
       <div>
-        {images.carousel.length === 0
+        {isImage.length === 0
           ? ""
-          : images.carousel.map((image, i) => (
+          : isImage.map((image, i) => (
               <div key={i}>
+                {/* {imgSrc(image.img)} */}
                 <img
                   src={`${rootUrl}${image.img}`}
                   alt={image.img}
@@ -70,7 +72,7 @@ export default function SectionCarousel() {
             ))}
       </div>
     );
-  };
+  }
 
   return (
     <div className={classes.section}>
@@ -78,7 +80,9 @@ export default function SectionCarousel() {
         <GridContainer>
           <GridItem>
             <Card carousel>
-                <Carousel {...settings}><div>{viewSlide()}</div></Carousel>
+              <Carousel {...settings}>
+                <div>{viewSlide()}</div>
+              </Carousel>
             </Card>
           </GridItem>
         </GridContainer>

@@ -23,15 +23,15 @@ const useStyles = makeStyles(styles);
 
  function HeaderLinks(props) {
   const admin = useSelector((state) => state.auth);
-  const [isAdmin, setIsAdmin] = useState(admin);
+  //const [isAdmin, setIsAdmin] = useState(admin);
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
-  useEffect(() => {
+  /*useEffect(() => {
    setIsAdmin(admin)
  },[admin])
- 
+ */
 console.log(admin)
   function logout(event) {
     event.preventDefault();
@@ -40,9 +40,11 @@ console.log(admin)
     props.history.push("/");
   }
 
-  console.log(isAdmin.auth)
+  console.log(admin.auth)
 
-  if (isAdmin.auth.success||isAdmin.auth.isAuth) {
+  if (admin.auth.success)
+    //||admin.auth.isAuth) 
+    {
     return (
       <div>
         <ListItem className={classes.listItem}>

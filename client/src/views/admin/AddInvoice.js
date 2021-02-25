@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -23,13 +23,17 @@ const useStyles = makeStyles(styles);
 export default function AddInvoice(props) {
   const classes = useStyles();
   const { ...rest } = props;
+  const edit = props.match.params.number
+  useEffect(()=>{
+    
+  },[edit])
   return (
     <div>
       <Header
         color="transparent"
         routes={dashboardRoutes}
         brand="Adesuyi Transco Ventures"
-        rightLinks={<HeaderLinks admin={true} />}
+        rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
           height: 400,
@@ -39,7 +43,7 @@ export default function AddInvoice(props) {
       />
       <div className={classNames(classes.main)}>
         <div className={classes.container}>
-          <InvoiceSection />
+          <InvoiceSection edit={edit}/>
         </div>
       </div>
       <Footer />

@@ -77,7 +77,7 @@ module.exports = (app) => {
     );
   });
 
-  //view admin profile
+  //view admin profile 
   app.get("/api/admin/view", authAdmin, (req, res) => {
     Admin.findOne({ _id: req.admin._id }, (err, admin) => {
       if (err) return res.status(500).send(err);

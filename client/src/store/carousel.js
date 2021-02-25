@@ -29,9 +29,10 @@ export default slice.reducer;
 
 const { slider, sliderText, postSliderText, errors } = slice.actions;
 
-export const getSlider = () => async (dispatch) => {
+export const getSlider = (img) => async (dispatch) => {
   try {
-    const res = await axios.get(`${SERVER}carousel`);
+    const res = await axios.get(`${SERVER}carousel/${img}`);
+    console.log(res)
     return dispatch(slider(res.data));
   } catch (err) {
     return dispatch(errors());
@@ -41,7 +42,7 @@ export const getSlider = () => async (dispatch) => {
 export const getSliderText = () => async (dispatch) => {
   try {
     const res = await axios.get(`${SERVER}carouseL_text`);
-    dispatch(sliderText(res.data));
+    return dispatch(sliderText(res.data));
   } catch (err) {
     return dispatch(errors());
   }
@@ -49,7 +50,9 @@ export const getSliderText = () => async (dispatch) => {
 
 export const getPostSliderText = (data) => async (dispatch) => {
   try {
+    console.log(data)
     const res = await axios.post(`${ADMIN_SERVER}carousel_text`, data);
+    console.log(res)
     return dispatch(postSliderText(res.data));
   } catch (err) {
     return dispatch(errors());

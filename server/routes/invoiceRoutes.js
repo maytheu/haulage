@@ -14,7 +14,8 @@ const pdf = require("../controller/pdf");
 //multer config
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../client/public/uploads/"));
+    //    cb(null, path.join(__dirname, "../../client/public/uploads/"));
+    cb(null, path.join(__dirname, "../uploads/"));
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
@@ -24,13 +25,18 @@ var storage = multer.diskStorage({
 const upload = multer({ storage }).single("file");
 
 module.exports = (app) => {
-  //post img inorder to use static url
+  //post img inor der to use static url
   app.post("/api/admin/carousel", userAuth, (req, res) => {
     upload(req, res, (err) => {
-
       if (err) return res.status(500).send("Please upload a file");
       return res.status(200).json({ success: true, img: req.file.filename });
     });
+  });
+
+  app.get("/api/carousel/:img", (req, res) => {
+    const img = req.params.img;
+    console.log(img);
+    res.sendFile(path.join(__dirname, `../uploads/${img}`));
   });
 
   //save text on images
@@ -42,15 +48,6 @@ module.exports = (app) => {
     });
   });
 
-  //view carousel
-  app.get("/api/carousel", (req, res) => {
-    const dir = path.resolve(__dirname + "/../../client/public/uploads");
-    fs.readdir(dir, (err, item) => {
-      if (err) return res.status(500).send(err);
-      return res.status(200).send(item);
-    });
-  });
-
   //load the text from the db
   app.get("/api/carouseL_text", (req, res) => {
     Carousel.find({}, (err, element) => {
@@ -59,15 +56,14 @@ module.exports = (app) => {
     });
   });
 
-  //dowload img api
-  app.get("/api/carousel/download/:name", (req, res) => {
-    const name = req.params.name;
-    const dir = path.resolve(
-      __dirname + `/../../client/public/uploads/${name}`
-    );
-    fs.readdir(dir, (err, item) => {
-      if (err) return res.status(500).send(err);
-      return res.status(200).download(item);
+  app.get("/api/admin/del/carousel_text", userAuth, (req, res) => {
+    const image = req.query.image;
+    fs.unlink(path.join(__dirname, `../uploads/${img}`), (err) => {
+      if (err) return res.status(500).send("Error deleting image");
+      Carousel.findOneAndDelete({ img: image }, (err) => {
+        if (err) return res.status(500).send("Error deleting slide");
+        return res.status(200).json({ success: true });
+      });
     });
   });
 
@@ -86,7 +82,7 @@ module.exports = (app) => {
       delivery: req.body.delivery,
       amount: req.body.amount,
       amountInWords: req.body.amountInWords,
-      location: req.body.location
+      location: req.body.location,
     });
     data.save((err, invoice) => {
       if (err) return res.status(500).send(err);
@@ -112,19 +108,22 @@ module.exports = (app) => {
     let number = req.body.number;
     Invoice.findOne({ number: number }, (err, print) => {
       if (print === null) return res.status(500).send("Invoice not found");
-      return res.status(200).json(print)
-    })})
+      return res.status(200).json(print);
+    });
+  });
+
+  app.get("/api/invoice/print/:number", (req, res) => {
+    const number = req.params.number;
+    return res.download(path.resolve(__dirname, `../pdf/${number}.pdf`));
+    //return fs.unlink(path.resolve(__dirname, `../pdf/${number}.pdf`))
+  });
 
   //view invoice - inv number
   app.get("/api/pdf", (req, res) => {
     let number = req.query.number;
     Invoice.findOne({ number: number }, (err, print) => {
       if (print === null) return res.status(500).send("Invoice not found");
-      console.log('here')
-      const pdfPath = path.join(
-        __dirname,
-        `../../client/public/pdf/${number}.pdf`
-      );
+      const pdfPath = path.join(__dirname, `../pdf/${number}.pdf`);
       const pdfDoc = new PDFDocument({ margin: 50 });
       try {
         res.setHeader(
@@ -139,14 +138,13 @@ module.exports = (app) => {
         pdfDoc.pipe(res);
         pdf.generateFooter(pdfDoc);
         pdfDoc.end();
-              return  res.status(201)
+        return res.status(201);
       } catch (err) {
         return res.status(500).send(err);
       }
     });
   });
 
-  
   //view all invoices
   app.get("/api/admin/invoices", userAuth, (req, res) => {
     Invoice.find({}, (err, invoices) => {
