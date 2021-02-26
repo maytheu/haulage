@@ -29,28 +29,22 @@ export default function TrackInvoice(props) {
   return (
     <div>
       <Header
-        color="transparent"
+        color="white"
         routes={dashboardRoutes}
         brand="Adesuyi Transco Ventures"
         rightLinks={<HeaderLinks admin={true} />}
         fixed
         changeColorOnScroll={{
           height: 400,
-          color: "white",
+          color: "white", 
         }}
         {...rest}
       />
-      <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+      <Parallax filter image={require("assets/img/delivery.png")}>
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Your Story Starts With Us.</h1>
-              <h4>
-                Every landing page needs a small description after the big bold
-                title, that{"'"}s why we added this text here. Add here all the
-                information that can make you or your product create the first
-                impression.
-              </h4>
+              <h1 className={classes.title}>Check your delivery status.</h1>
               <br />
             </GridItem>
           </GridContainer>

@@ -26,7 +26,7 @@ export default function SectionDownload() {
               give an old Bootstrap project a new look! 
             </h4>
           </GridItem>
-          <GridItem xs={12} sm={8} md={6}>
+          <GridItem xs={12} sm={8} md={6}> 
             <Button
               color="primary"
               size="lg"

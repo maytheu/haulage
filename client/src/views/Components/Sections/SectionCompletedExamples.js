@@ -18,12 +18,11 @@ export default function SectionCompletedExamples() {
       <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2>Completed with examples</h2>
+            <h2>Our Goal</h2>
             <h4>
-              The kit comes with three pre-built pages to help you get started
-              faster. You can change the text and images and you{"'"}re good to
-              go. More importantly, looking at them will give you a picture of
-              what you can build with this powerful kit.
+              We offer freight services ranging from an envelope to the largest
+              of all goods, delivery at the speed of light. We bear the risk and
+              take care of the huzzle on your behalf.
             </h4>
           </GridItem>
         </GridContainer>

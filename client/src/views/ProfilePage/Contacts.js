@@ -15,7 +15,6 @@ import Address from "./Address";
 
 //import profile from "assets/img/faces/christian.jpg";
 
-
 import styles from "assets/jss/material-kit-react/views/profilePage.js";
 
 const useStyles = makeStyles(styles);
@@ -23,16 +22,10 @@ const useStyles = makeStyles(styles);
 export default function Contacts(props) {
   const classes = useStyles();
   const { ...rest } = props;
-  // const imageClasses = classNames(
-  //   classes.imgRaised,
-  //   classes.imgRoundedCircle,
-  //   classes.imgFluid
-  // );
-  //const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
   return (
     <div>
       <Header
-        color="transparent"
+        color="white"
         brand="Adesuyi Transco Ventures"
         rightLinks={<HeaderLinks />}
         fixed
@@ -42,7 +35,7 @@ export default function Contacts(props) {
         }}
         {...rest}
       />
-      <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
+      <Parallax small filter image={require("assets/img/contact.jpeg")} />
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
@@ -55,15 +48,21 @@ export default function Contacts(props) {
                   <div className={classes.name}>
                     <h3 className={classes.title}>Adesuyi Transo Ventures</h3>
                     <h6>HAULAGE AND LOGISTICS SOLUTION</h6>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-twitter"} />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-instagram"} />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-facebook"} />
-                    </Button>
+                    <a href="https://twitter.com/st_meto">
+                      <Button justIcon link className={classes.margin5}>
+                        <i className={"fab fa-twitter"} />
+                      </Button>
+                    </a>
+                    <a href="https://www.instagram.com/maytheu98/">
+                      <Button justIcon link className={classes.margin5}>
+                        <i className={"fab fa-instagram"} />
+                      </Button>
+                    </a>
+                    <a href="https://web.facebook.com/mautheu">
+                      <Button justIcon link className={classes.margin5}>
+                        <i className={"fab fa-facebook"} />
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </GridItem>
@@ -73,7 +72,7 @@ export default function Contacts(props) {
                 At Adesuyi Transco Ventures we provide state of the art
                 solutions to haulage services locally and international, we
                 solve the all your transport solution. Contactus via the above
-                channel or walk lets have a pysical conversation
+                channel or walk in, lets have a pysical conversation
               </p>
             </div>
             <GridContainer justify="center"></GridContainer>

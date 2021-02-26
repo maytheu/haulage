@@ -24,7 +24,7 @@ export default function AddCarousel(props) {
   return (
     <div>
       <Header
-        color="transparent"
+        color="white"
         routes={dashboardRoutes}
         brand="Adesuyi Transco Ventures"
         rightLinks={<HeaderLinks admin={true} />}

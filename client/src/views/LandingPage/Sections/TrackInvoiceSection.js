@@ -54,9 +54,8 @@ export default function TrackInvoiceSection() {
         <GridItem cs={12} sm={12} md={8}>
           <h2 className={classes.title}>Track Your Invoice</h2>
           <h4 className={classes.description}>
-            You can track the your invoice by goods, tonnage, name and invoice
-            number and know its delivery status We will responde get back to you
-            in a couple of hours.
+            Track your witn your invoice number. Can't find your invoice number,
+            please contact us.
           </h4>
           <form onSubmit={handleSubmit}>
             <GridContainer>

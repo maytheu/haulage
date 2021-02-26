@@ -14,6 +14,7 @@ import SectionCarousel from "./Sections/SectionCarousel.js";
 import SectionCompletedExamples from "./Sections/SectionCompletedExamples.js";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
+import SectionDownload from "./Sections/SectionDownload.js";
 
 const useStyles = makeStyles(styles);
 
@@ -27,7 +28,7 @@ export default function Components(props) {
         brand="Adesuyi Transco Ventures"
         rightLinks={<HeaderLinks />}
         fixed
-        color="transparent"
+        color="white"
         changeColorOnScroll={{
           height: 400,
           color: "white",
@@ -37,7 +38,6 @@ export default function Components(props) {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <SectionCarousel />
         <GridItem md={12} className={classes.textCenter}>
-          Testimonials
         </GridItem>
         <SectionCompletedExamples />
       </div>

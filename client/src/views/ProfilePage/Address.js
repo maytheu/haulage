@@ -21,7 +21,7 @@ export default function Address() {
         <GridItem cs={12} sm={12} md={8}>
           <h2 className={classes.title}>Visit Us</h2>
           <h4 className={classes.description}>
-            <LocationOn /> Address: address here
+            <LocationOn /> We are here
             <div />
             <Phone /> 07063032847
           </h4>

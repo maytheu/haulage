@@ -33,7 +33,7 @@ export default function ResetPassword(props) {
     <div>
       <Header
         absolute
-        color="transparent"
+        color="white"
         brand="Adesuyi Transco Ventures"
         rightLinks={<HeaderLinks />}
         {...rest}

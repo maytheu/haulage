@@ -78,19 +78,10 @@ function CarouselSection(props) {
 
   return (
     <div>
-      <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+      <Parallax filter image={require("assets/img/contact1.png")}>
         <div className={classes.container}>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Your Story Starts With Us.</h1>
-              <h4>
-                Every landing page needs a small description after the big bold
-                title, that{"'"}s why we added this text here. Add here all the
-                information that can make you or your product create the first
-                impression.
-              </h4>
-              <br />
-            </GridItem>
+            <GridItem xs={12} sm={12} md={6}></GridItem>
           </GridContainer>
         </div>
       </Parallax>
@@ -101,11 +92,7 @@ function CarouselSection(props) {
             <GridItem cs={12} sm={12} md={8}>
               <h2 className={classes.title}>Add new Carousel</h2>
               <h4 className={classes.description}>
-                Divide details about your product or agency work into parts.
-                Write a few lines about each one and contact us about any
-                further collaboration. You can track the your invoice by goods,
-                tonnage, name and invoice number and know its delivery status We
-                will responde get back to you in a couple of hours.
+                This page add image slider to the homepage.
               </h4>
               {!upload ? (
                 <GridContainer>
@@ -125,12 +112,14 @@ function CarouselSection(props) {
                   <h4 className={classes.description}>
                     View Slides <em>Click to delete</em>
                   </h4>
-                  {images.carousel.map((image) => (
-                    <div
-                      key={image.img}
-                      onClick={() => handleDelete(image.img)}
-                    >{`${image.img}-${image.headline}`}</div>
-                  ))}
+                  {images.carousel === undefined
+                    ? ""
+                    : images.carousel.map((image) => (
+                        <div
+                          key={image.img}
+                          onClick={() => handleDelete(image.img)}
+                        >{`${image.img}-${image.headline}`}</div>
+                      ))}
                 </GridContainer>
               ) : (
                 <form onSubmit={handleSubmit}>

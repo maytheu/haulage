@@ -32,18 +32,13 @@ const useStyles = makeStyles(styles);
    setIsAdmin(admin)
  },[admin])
  */
-console.log(admin)
   function logout(event) {
     event.preventDefault();
     dispatch(getLogout())
-    //.then(res=>console.log(res))
     props.history.push("/");
   }
 
-  console.log(admin.auth)
-
   if (admin.auth.success)
-    //||admin.auth.isAuth) 
     {
     return (
       <div>
