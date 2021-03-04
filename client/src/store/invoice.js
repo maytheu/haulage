@@ -56,7 +56,6 @@ export const getPostInvoice = (number) => async (dispatch) => {
 export const getPrintInvoice = (number) => async (dispatch) => {
   try {
     const res = await axios.get(`${SERVER}invoice/print/${number}`, { responseType: 'blob' });
-    console.log(res);
     dispatch(printInvoice(download(res.data, `${number}.pdf`)));
   } catch (err) {
     return dispatch(errors());

@@ -225,7 +225,7 @@ function InvoiceSection(props) {
             </GridContainer>
           </form>
         </GridItem>
-        <h5 className={classes.description} color="danger">
+        <h5 className={classes.title} color="danger">
           {invoice}
         </h5>
       </GridContainer>
