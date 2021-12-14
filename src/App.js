@@ -1,4 +1,5 @@
 import { Footer, Header } from "./components";
+import { CardCollection } from "./components/layout/card";
 import CardCart from "./components/layout/card/CardCart";
 import CardJournal from "./components/layout/card/CardJournal";
 import Section from "./components/layout/Section";
@@ -27,7 +28,7 @@ function App() {
       image:
         "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
       item: "Real Black Coffee",
-      // date: j,
+      price: 5000,
     },
   ];
   const journal = [
@@ -84,6 +85,7 @@ function App() {
           ))}
         </div>
       </Section>
+      <CardCollection />
       <Footer />
     </>
   );
