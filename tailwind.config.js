@@ -5,7 +5,11 @@ module.exports = {
     letterSpacing: {
       widest: ".15em",
     },
-    extend: {},
+    extend: {
+      height: {
+        128: "32rem",
+      },
+    },
   },
   plugins: [
     // require("@tailwindcss/typography")

@@ -1,8 +1,11 @@
 import { Footer, Header } from "./components";
-import { CardCollection } from "./components/layout/card";
-import CardCart from "./components/layout/card/CardCart";
-import CardJournal from "./components/layout/card/CardJournal";
-import Section from "./components/layout/Section";
+import {
+  Accesories,
+  CardCollection,
+  CardJournal,
+  CardCart,
+} from "./components/layout/card";
+import { Section } from "./components/layout";
 
 function App() {
   const latest = [
@@ -86,6 +89,7 @@ function App() {
         </div>
       </Section>
       <CardCollection />
+      <Accesories />
       <Footer />
     </>
   );

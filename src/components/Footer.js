@@ -48,7 +48,7 @@ const Footer = () => {
       </div>
       <div className="bg-black text-white border-gray-500 border-2 py-10 px-8 lg:px-32">
         <div className="flex flex-col md:flex-row-reverse lg:justify-evenly">
-          <div className="lg:w-1/3 md:pl-5">
+          <div className="lg:w-1/3 md:pl-5 md:my-auto lg:my-0">
             <Typography color="white" variant="bodyHeader" uppercase>
               Newsletter
             </Typography>
