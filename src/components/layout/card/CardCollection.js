@@ -14,7 +14,7 @@ const CardCollection = () => {
               className="w-full h-full"
             />
           </div>
-          <div className="h-96 w-full px-4 pb-4 md:w-1/2 md:px-2 md:h-80 md:my-auto lg:px-6 lg:w-1/3">
+          <div className=" hidden h-96 w-full px-4 pb-4 md:flex md:w-1/2 md:px-2 md:h-80 md:my-auto lg:px-6 lg:w-1/3">
             <img
               src={
                 "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"

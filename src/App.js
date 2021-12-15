@@ -1,9 +1,10 @@
 import { Footer, Header } from "./components";
 import {
   Accesories,
-  CardCollection,
-  CardJournal,
-  CardCart,
+  Collection,
+  Journal,
+  Cart,
+  Featured,
 } from "./components/layout/card";
 import { Section } from "./components/layout";
 
@@ -67,7 +68,7 @@ function App() {
       <Section title="new arrival">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
           {latest.map((item, i) => (
-            <CardCart
+            <Cart
               image={item.image}
               price={item.price}
               item={item.item}
@@ -79,7 +80,7 @@ function App() {
       <Section title="from journal">
         <div className="max-w-7xl flex flex-col lg:flex-row justify-center">
           {journal.map((item) => (
-            <CardJournal
+            <Journal
               image={item.image}
               date={item.date}
               title={item.title}
@@ -88,8 +89,9 @@ function App() {
           ))}
         </div>
       </Section>
-      <CardCollection />
+      <Collection />
       <Accesories />
+      <Featured/>
       <Footer />
     </>
   );
