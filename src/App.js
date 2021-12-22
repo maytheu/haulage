@@ -7,6 +7,7 @@ import {
   Featured,
 } from "./components/layout/card";
 import { Section } from "./components/layout";
+import { Products } from "./views";
 
 function App() {
   const latest = [
@@ -26,6 +27,12 @@ function App() {
       image:
         "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
       item: "Real yellow Coffee",
+      price: 5000,
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
+      item: "Real Black Coffee",
       price: 5000,
     },
     {
@@ -66,7 +73,7 @@ function App() {
     <>
       <Header />
       <Section title="new arrival">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row">
+        <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-4 lg:gap-4">
           {latest.map((item, i) => (
             <Cart
               image={item.image}
@@ -91,7 +98,8 @@ function App() {
       </Section>
       <Collection />
       <Accesories />
-      <Featured/>
+      <Featured />
+      <Products />
       <Footer />
     </>
   );
