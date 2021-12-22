@@ -7,7 +7,7 @@ import {
   Featured,
 } from "./components/layout/card";
 import { Section } from "./components/layout";
-import { Products } from "./views";
+import { Products, Product } from "./views";
 
 function App() {
   const latest = [
@@ -100,6 +100,7 @@ function App() {
       <Accesories />
       <Featured />
       <Products />
+      <Product />
       <Footer />
     </>
   );
