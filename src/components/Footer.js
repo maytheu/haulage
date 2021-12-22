@@ -151,7 +151,7 @@ const Footer = () => {
           </Typography>
         </div>
       </div>
-      <hr className="border-b -mt-24 border-gray-500"/>
+      <hr className="border-b -mt-24 border-gray-500" />
     </footer>
   );
 };
