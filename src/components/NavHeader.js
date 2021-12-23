@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "./utilities";
-import { LOGIN_ROUTE } from "../routes";
+import { LOGIN_ROUTE, PRODUCTS_HOME_ROUTE } from "../routes";
 
 const NavHeader = () => {
   const [mobile, setMobile] = useState(false);
@@ -21,7 +21,7 @@ const NavHeader = () => {
   };
 
   return (
-    <nav className="relative bg-white mb-16 z-50">
+    <nav className="relative bg-white mb-20 z-50">
       <div className="fixed top-0 inset-x-0 py-2 transition transform origin-top-right  mx-auto bg-white border-b-2">
         <div className="flex justify-between items-center py-4 max-w-7xl md:space-x-10 lg:justify-evenly">
           <div className="cursor-pointer pl-3 md:hidden">
@@ -42,32 +42,34 @@ const NavHeader = () => {
             <Link to="/">
               <Typography
                 variant="small"
-                className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-100 md:py-2"
+                className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-blue-300 md:py-2"
               >
                 Home
               </Typography>
             </Link>
+            <Link to={PRODUCTS_HOME_ROUTE}>
+              <Typography
+                variant={"small"}
+                className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-blue-300 md:py-2"
+              >
+                Shop
+              </Typography>
+            </Link>
             <Typography
               variant={"small"}
-              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-100 md:py-2"
-            >
-              Shop
-            </Typography>
-            <Typography
-              variant={"small"}
-              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-100 md:py-2"
+              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-blue-300 md:py-2"
             >
               Featured
             </Typography>
             <Typography
               variant={"small"}
-              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-100 md:py-2"
+              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-300 md:py-2"
             >
               Pages
             </Typography>
             <Typography
               variant={"small"}
-              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-gray-100 md:py-2"
+              className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-blue-300 md:py-2"
             >
               Blog
             </Typography>

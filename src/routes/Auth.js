@@ -1,6 +1,7 @@
 import { Footer, Header } from "../components";
 import { Routes, Route } from "react-router-dom";
 import { Login, Register } from "../views/auth";
+import { Scroll } from "../components/utilities";
 
 const Auth = () => {
   return (
@@ -16,6 +17,7 @@ const Auth = () => {
           </Routes>
         </section>
       </main>
+      <Scroll />
       <Footer />
     </>
   );

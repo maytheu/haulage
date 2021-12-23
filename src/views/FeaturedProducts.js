@@ -1,3 +1,4 @@
+import { Footer, Header } from "../components";
 import { Section } from "../components/layout";
 import { Cart, Highlight, Promo } from "../components/layout/card";
 import { Category } from "../components/layout/categories";
@@ -68,6 +69,7 @@ const FeaturedProduct = () => {
 
   return (
     <>
+      <Header />
       <Category>
         <Section title="product">
           <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-4 lg:gap-8">
@@ -84,6 +86,7 @@ const FeaturedProduct = () => {
       </Category>
       <Highlight />
       <Promo />
+      <Footer />
     </>
   );
 };

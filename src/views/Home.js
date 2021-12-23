@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Footer, Header } from "../components";
 import {
   Accesories,
@@ -7,7 +8,7 @@ import {
   Featured,
 } from "../components/layout/card";
 import { Section } from "../components/layout";
-import { Products, Product } from "../views";
+import { Scroll } from "../components/utilities";
 
 function Home() {
   const latest = [
@@ -75,12 +76,9 @@ function Home() {
       <Section title="new arrival">
         <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-4 lg:gap-4">
           {latest.map((item, i) => (
-            <Cart
-              image={item.image}
-              price={item.price}
-              item={item.item}
-              key={i}
-            />
+            <Link to={`product/${i}`} key={i}>
+              <Cart image={item.image} price={item.price} item={item.item} />
+            </Link>
           ))}
         </div>
       </Section>
@@ -99,8 +97,7 @@ function Home() {
       <Collection />
       <Accesories />
       <Featured />
-      <Products />
-      <Product />
+      <Scroll />
       <Footer />
     </>
   );

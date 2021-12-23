@@ -31,7 +31,7 @@ const colorTextVariantMapping = {
 
 const colorBgVariantMapping = {
   primary: "bg-blue-500 text-white",
-  secondary: "bg-blue-800 ",
+  secondary: "bg-blue-800 text-white",
   error: "bg-red-600",
 };
 
