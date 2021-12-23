@@ -6,6 +6,7 @@ import {
   Journal,
   Cart,
   Featured,
+  Promo,
 } from "../components/layout/card";
 import { Section } from "../components/layout";
 import { Scroll } from "../components/utilities";
@@ -96,6 +97,7 @@ function Home() {
       </Section>
       <Collection />
       <Accesories />
+      <Promo />
       <Featured />
       <Scroll />
       <Footer />
