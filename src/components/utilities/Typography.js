@@ -79,7 +79,6 @@ Typography.propTypes = {
     "body2",
     "small",
   ]),
-  className: PropTypes.object,
   color: PropTypes.oneOf(["defaultHeader", "defaultBody", "white", "danger"]),
   children: PropTypes.node,
 };

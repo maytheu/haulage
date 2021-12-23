@@ -1,11 +1,11 @@
-import { Images } from "../components/layout/card";
+import { Images, ProductInfo } from "../components/layout/card";
 
 const Product = () => {
   return (
     <div className="max-w-7xl mx-auto">
-      <div className=" mx-auto flex flex-col bg-white py-3 px-2 border-2 rounded-lg shadow-md md:flex-row">
+      <div className=" flex flex-col bg-white py-3 px-2 border-2 rounded-lg shadow-md md:flex-row md:w-auto">
         <Images />
-        <div className="">text</div>
+        <ProductInfo />
       </div>
       <div>product desc</div>
     </div>
