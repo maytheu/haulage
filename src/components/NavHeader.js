@@ -22,7 +22,7 @@ const NavHeader = () => {
 
   return (
     <nav className="relative bg-white mb-20 z-50">
-      <div className="fixed top-0 inset-x-0 py-2 transition transform origin-top-right  mx-auto bg-white border-b-2">
+      <div className="fixed top-0 inset-x-0 py-2 transition transform origin-top-right  mx-auto bg-white border-b-2 border-blue-300">
         <div className="flex justify-between items-center py-4 max-w-7xl md:space-x-10 lg:justify-evenly">
           <div className="cursor-pointer pl-3 md:hidden">
             <span className="sr-only">menu option</span>
@@ -47,7 +47,7 @@ const NavHeader = () => {
                 Home
               </Typography>
             </Link>
-            <Link to={PRODUCTS_HOME_ROUTE}>
+            <Link to={`/${PRODUCTS_HOME_ROUTE}`}>
               <Typography
                 variant={"small"}
                 className="cursor-pointer px-5 py-3 text-center rounded-lg hover:bg-blue-300 md:py-2"

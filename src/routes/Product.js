@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { useParams, Link, useLocation, Routes, Route } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  useLocation,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import { Footer, Header } from "../components";
 import { Images, ProductInfo } from "../components/layout/card";
 import { Scroll, Typography } from "../components/utilities";
@@ -50,6 +57,7 @@ const Product = () => {
         </div>
         <Scroll />
         <Footer />
+        <Outlet />
       </div>
     </>
   );

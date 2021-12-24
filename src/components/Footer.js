@@ -46,7 +46,7 @@ const Footer = () => {
         ))}
         <div></div>
       </div>
-      <div className="bg-black text-white border-gray-500 border-2 py-10 px-8 lg:px-32">
+      <div className="bg-black text-white border-blue-300 border-2 py-10 px-8 lg:px-32">
         <div className="flex flex-col md:flex-row-reverse lg:justify-evenly">
           <div className="lg:w-1/3 md:pl-5 md:my-auto lg:my-0">
             <Typography color="white" variant="bodyHeader" uppercase>
@@ -59,7 +59,7 @@ const Footer = () => {
             >
               Sign up to get gif, special discount and newest arrivals.
             </Typography>
-            <div className="flex justify-between border-b border-gray-500 pb-3 mt-2 mb-8">
+            <div className="flex justify-between border-b border-blue-300 pb-3 mt-2 mb-8">
               <Typography color="defaultBody" variant="small">
                 {" "}
                 Your email...
@@ -151,7 +151,7 @@ const Footer = () => {
           </Typography>
         </div>
       </div>
-      <hr className="border-b -mt-24 border-gray-500" />
+      <hr className="border-b -mt-24 border-blue-300" />
     </footer>
   );
 };

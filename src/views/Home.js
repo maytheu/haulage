@@ -74,10 +74,11 @@ function Home() {
   return (
     <>
       <Header />
+      <div className="pt-2" />
       <Section title="new arrival">
         <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-4 lg:gap-4">
           {latest.map((item, i) => (
-            <Link to={`product/${i}`} key={i}>
+            <Link to={`/product/${i}`} key={i}>
               <Cart image={item.image} price={item.price} item={item.item} />
             </Link>
           ))}
