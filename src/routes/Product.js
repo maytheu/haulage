@@ -1,12 +1,5 @@
 import { useEffect } from "react";
-import {
-  useParams,
-  Link,
-  useLocation,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { useParams, Link, useLocation, Routes, Route } from "react-router-dom";
 import { Footer, Header } from "../components";
 import { Images, ProductInfo } from "../components/layout/card";
 import { Scroll, Typography } from "../components/utilities";
@@ -20,7 +13,7 @@ const Product = () => {
   }, [params]);
 
   const link = [
-    { title: "Description", link: `/product/${params.productId}` },
+    { title: "Description", link: `/product/${params.productId}/description` },
     { title: "Information", link: `/product/${params.productId}/information` },
     { title: "Reviews", link: `/product/${params.productId}/reviews` },
     { title: "Videos", link: `/product/${params.productId}/videos` },
@@ -38,6 +31,7 @@ const Product = () => {
           <div className="flex space-x-5">
             {link.map(({ title, link }, i) => (
               <Link
+                key={i}
                 to={link}
                 className={`rounded-tl-md rounded-bl-md px-3  py-1 cursor-pointer hover:bg-blue-300 ${
                   location.pathname === link &&
@@ -50,14 +44,14 @@ const Product = () => {
           </div>
           <Routes>
             <Route index element={<Desc />} />
+            <Route path="description" element={<Desc />} />
             <Route path="information" element={<Info />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="videos" element={<Videos />} />
           </Routes>
         </div>
-        <Scroll />
+        {location.pathname === `/product/${params.productId}` && <Scroll />}{" "}
         <Footer />
-        <Outlet />
       </div>
     </>
   );

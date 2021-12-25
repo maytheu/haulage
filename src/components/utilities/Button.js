@@ -73,6 +73,7 @@ const Button = ({
       className={`${className} ${cn({
         "bg-opacity-30": disabled,
         "w-full": fullWidth,
+        "cursor-not-allowed": disabled,
         [tailwindStyleVariantMapping[variant]]: variant,
         [sizesVariantMapping[sizes]]: sizes,
         [fontSizeVariantMapping[sizes]]: sizes,

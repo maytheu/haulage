@@ -36,8 +36,11 @@ const Footer = () => {
   return (
     <footer className="bottom-0 inset-x-0">
       <div className="bg-white flex-col items-center px-5 md:bg-gray-100 flex md:flex-row md:justify-evenly md:px-0">
-        {benefits.map(({ text, Icon }) => (
-          <div className="flex items-center py-5 bg-gray-100 w-full justify-center mb-3 ">
+        {benefits.map(({ text, Icon }, i) => (
+          <div
+            className="flex items-center py-5 bg-gray-100 w-full justify-center mb-3 "
+            key={i}
+          >
             <Icon size={18} className="mr-3 text-gray-600" />
             <Typography variant="small" color="defaultBody">
               {text}

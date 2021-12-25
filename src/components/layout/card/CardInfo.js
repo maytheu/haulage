@@ -13,14 +13,17 @@ const CardInfo = () => {
         {[...Array(5)].map((star, i) => {
           const ratingValue = i + 1;
           return (
-            <MdStar color={ratingValue > rating.card ? "grey" : "yellow"} />
+            <MdStar
+              color={ratingValue > rating.card ? "grey" : "blue"}
+              key={i}
+            />
           );
-        })}{" "}
+        })}
         <Typography className="pl-4">({rating.card} / 5)</Typography>
       </div>
       <div className="flex pb-2">
         <Typography>&#x20A6; 12000</Typography>
-        <Typography color="error" className="pl-5 line-through text-red-500">
+        <Typography color="danger" className="pl-5 line-through text-red-500">
           &#x20A6; 15000
         </Typography>
       </div>

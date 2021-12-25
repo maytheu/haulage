@@ -8,3 +8,4 @@ export { default as Promo } from "./CardPromo";
 export { default as Images } from "./CardImages";
 export { default as ProductInfo } from "./CardInfo";
 export { default as CardProduct } from "./CardProduct";
+export { default as ListCart } from "./CardListCart";

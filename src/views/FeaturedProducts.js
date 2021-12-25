@@ -2,6 +2,7 @@ import { Footer, Header } from "../components";
 import { Section } from "../components/layout";
 import { Cart, Highlight, Promo } from "../components/layout/card";
 import { Category } from "../components/layout/categories";
+import { Scroll } from "../components/utilities";
 
 const FeaturedProduct = () => {
   const latest = [
@@ -87,6 +88,7 @@ const FeaturedProduct = () => {
       <Highlight />
       <Promo />
       <Footer />
+      <Scroll />
     </>
   );
 };

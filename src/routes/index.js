@@ -7,3 +7,4 @@ export const RESET_PASSWORD = "/auth/reset_password";
 export const PRODUCT = "product/:productId/*";
 export const PRODUCTS_ROUTE = "products/:category";
 export const PRODUCTS_HOME_ROUTE = "products";
+export const CART = "cart";

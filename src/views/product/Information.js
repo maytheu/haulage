@@ -1,5 +1,4 @@
 import { Typography, ProductScroll } from "../../components/utilities";
-import { Outlet } from "react-router-dom";
 const Information = () => {
   const desc = {
     title: "Title Desc",
@@ -13,7 +12,6 @@ const Information = () => {
       </Typography>
       <Typography variant="small">{desc.message}</Typography>
       <ProductScroll />
-      <Outlet />
     </div>
   );
 };

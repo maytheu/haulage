@@ -7,16 +7,22 @@ import {
 } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "./utilities";
-import { LOGIN_ROUTE, PRODUCTS_HOME_ROUTE } from "../routes";
+import { LOGIN_ROUTE, PRODUCTS_HOME_ROUTE, CART } from "../routes";
 
 const NavHeader = () => {
   const [mobile, setMobile] = useState(false);
-  const token = null;
+  const token = true;
   const navigate = useNavigate();
 
   const account = (e) => {
     e.preventDefault();
     if (token) return navigate("/profile");
+    navigate(LOGIN_ROUTE);
+  };
+
+  const cart = (e) => {
+    e.preventDefault();
+    if (token) return navigate(`/${CART}`);
     navigate(LOGIN_ROUTE);
   };
 
@@ -77,7 +83,7 @@ const NavHeader = () => {
           <div className="cursor-pointer flex pl-3 space-x-5 md:space-x-5">
             <span className="sr-only">user menu</span>
             <MdOutlineAccountCircle size={20} onClick={account} />
-            <MdOutlineShoppingCart size={20} onClick={account} />
+            <MdOutlineShoppingCart size={20} onClick={cart} />
             {token && <MdLogout size={20} onClick={account} />}
           </div>
         </div>
