@@ -33,8 +33,8 @@ const CardListCart = () => {
     },
   ];
   return (
-    <div>
-      <div className="flex flex-col p-3  lg:px-5 lg:flex-row">
+    <div className="flex flex-col lg:flex-row lg:flex-1">
+      <div className="flex flex-col p-3 lg:p-5 lg:flex-1">
         {cart.map((item) => (
           <div className="flex flex-col p-3  lg:px-5 lg:flex-row">
             <div className="flex flex-col md:flex-row lg:flex-1">
@@ -78,11 +78,10 @@ const CardListCart = () => {
                 </div>
               </div>
             </div>
-            {/* <div>order summary</div> */}
           </div>
         ))}
-        <div>order summary</div>
       </div>
+      <div>order summary</div>
     </div>
   );
 };
