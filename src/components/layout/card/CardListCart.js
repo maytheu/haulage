@@ -1,6 +1,6 @@
 import { MdAdd } from "react-icons/md";
 import { AiOutlineMinus } from "react-icons/ai";
-import { Typography } from "../../utilities";
+import { Button, Typography } from "../../utilities";
 
 const CardListCart = () => {
   const cart = [
@@ -33,8 +33,8 @@ const CardListCart = () => {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row lg:flex-1">
-      <div className="flex flex-col p-3 lg:p-5 lg:flex-1">
+    <div className="flex flex-col p-3 lg:p-5 lg:flex-row lg:flex-1">
+      <div className="flex flex-col lg:flex-1">
         {cart.map((item) => (
           <div className="flex flex-col p-3  lg:px-5 lg:flex-row">
             <div className="flex flex-col md:flex-row lg:flex-1">
@@ -81,7 +81,30 @@ const CardListCart = () => {
           </div>
         ))}
       </div>
-      <div>order summary</div>
+      <div className="flex flex-col py-3 px-5 h-full lg:border-2 border-blue-300 lg:w-3/12">
+        <Typography uppercase variant="subheader1" className="text-center">
+          Order Summary
+        </Typography>
+        <div className="flex justify-between py-2">
+          <Typography variant="subheader2">Subtotal</Typography>
+          <Typography>&#x20A6; Price</Typography>
+        </div>
+        <div className="flex justify-between py-2">
+          <Typography variant="subheader2">Estimated</Typography>
+          <Typography>&#x20A6; Price</Typography>
+        </div>
+        <div className="flex justify-between py-2">
+          <Typography variant="subheader2">Discount</Typography>
+          <Typography>&#x20A6; Price</Typography>
+        </div>
+        <div className="flex justify-between py-2">
+          <Typography variant="subheader2">Total</Typography>
+          <Typography variant="subheader2">&#x20A6; Price</Typography>
+        </div>
+        <Button variant="contained" className="capitalize">
+          Checkout now
+        </Button>
+      </div>
     </div>
   );
 };
