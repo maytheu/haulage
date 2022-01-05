@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const {
   param,
@@ -25,15 +27,31 @@ exports.signUp = async (req, res) => {
   }
 
   if (verifyPhone(email)) {
-    user = new User({ password });
+    try {
+      user = new User({ password });
+      const resp = await user.save();
+      const phone = new Phone({ id: resp._id, phone: email });
+      const phoneResp = await phone.save();
+      const token = jwt.sign({ id: admin.id }, process.env.DB_URL, {
+        expiresIn: 86400, // 24 hours
+      });
+      console.log(phoneResp);
+      return res.status(200).json({ data: { phone: phoneResp.phone }, token });
+    } catch (e) {
+      return res.status(401).json({ data: "Error Message", e });
+    }
   }
 
-  const resp = await user.save();
-  if (verifyPhone(email)) {
-    const phone = new Phone({ id: resp._id, phone: email });
-    await phone.save();
+  try {
+    const resp = await user.save();
+    const token = jwt.sign({ id: admin.id }, process.env.DB_URL, {
+      expiresIn: 86400, // 24 hours
+    });
+    console.log(resp);
+    return res
+      .status(200)
+      .json({ data: { email: resp.email, username: resp.username }, token });
+  } catch (e) {
+    return res.status(401).json({ data: "Error", e });
   }
-
-  // cookie to cliient
-  console.log(resp);
 };

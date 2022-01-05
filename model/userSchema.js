@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const SALT = 10;
 
 const userSchema = mongoose.Schema({
@@ -43,15 +42,5 @@ userSchema.pre("save", async function (next) {
     });
   });
 });
-
-// userSchema.methods.getToken = function (cb) {
-//   var user = this;
-//   var token = jwt.sign(user._id.toHexString(), process.env.SECRET_KEY);
-//   sub.token = token;
-//   sub.save(function (err, sub) {
-//     if (err) return cb(err);
-//     return cb(null, sub);
-//   });
-// };
 
 module.exports = mongoose.model("users", userSchema);
