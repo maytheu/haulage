@@ -21,8 +21,9 @@ const userSchema = mongoose.Schema({
       partialFilterExpression: { email: { $type: "string" } },
     },
   },
+  profileId: Number,
   phone: [{ type: Schema.Types.ObjectId, ref: "phones" }],
-  password: { type: String, minLength: 8, required: 1 },
+  password: { type: String, minLength: 8 },
   firstName: String,
   lastName: String,
   address: String,
@@ -30,17 +31,40 @@ const userSchema = mongoose.Schema({
   loginAttempt: { type: Number, default: 0 },
 });
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", function (next) {
   var user = this;
   if (!user.isModified("password")) return next(); //only change if password modified
   bcrypt.genSalt(SALT, function (err, salt) {
     if (err) return next(err);
     bcrypt.hash(user.password, salt, function (err, hash) {
-      if (err) return next();
+      if (err) return next(err);
       user.password = hash; //hash password
       next();
     });
   });
 });
+
+userSchema.methods.comparePassword = function (password, cb) {
+  bcrypt.compare(password, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
+userSchema.statics.login = async function (body, password, cb) {
+  try {
+    const user = await this.findOne(body);
+    if (!user) return cb("User not found");
+    console.log(user);
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) return cb(err);
+      if (!isMatch) return cb("Invalid");
+      if (isMatch) return cb(null, user);
+    });
+  } catch (e) {
+    console.log(e);
+    cb(e);
+  }
+};
 
 module.exports = mongoose.model("users", userSchema);

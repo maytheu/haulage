@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const passport = require("passport");
 
 const {
   param,
   verifyEmail,
   verifyPassword,
   verifyPhone,
+  phoneLength,
 } = require("../utils/verify");
 const User = require("../model/userSchema");
 const Phone = require("../model/phoneSchema");
+const token = require("../utils/token");
 
 exports.signUp = async (req, res) => {
   const { email, password } = req.body;
@@ -27,31 +27,78 @@ exports.signUp = async (req, res) => {
   }
 
   if (verifyPhone(email)) {
-    try {
-      user = new User({ password });
-      const resp = await user.save();
-      const phone = new Phone({ id: resp._id, phone: email });
-      const phoneResp = await phone.save();
-      const token = jwt.sign({ id: admin.id }, process.env.DB_URL, {
-        expiresIn: 86400, // 24 hours
-      });
-      console.log(phoneResp);
-      return res.status(200).json({ data: { phone: phoneResp.phone }, token });
-    } catch (e) {
-      return res.status(401).json({ data: "Error Message", e });
+    if (phoneLength(email)) {
+      try {
+        user = new User({ password });
+        const resp = await user.save();
+        const phone = new Phone({ id: resp._id, phone: email });
+        const phoneResp = await phone.save();
+        const key = token(resp.id);
+        return res
+          .status(200)
+          .json({ data: { phone: phoneResp.phone }, token: key });
+      } catch (e) {
+        return res.status(401).json({
+          data: "Error Message",
+          e,
+        });
+      }
+    } else {
+      return res.status(400).json({ data: "Invalid phone number" });
     }
   }
 
   try {
     const resp = await user.save();
-    const token = jwt.sign({ id: admin.id }, process.env.DB_URL, {
-      expiresIn: 86400, // 24 hours
+    const key = token(resp._id);
+    return res.status(200).json({
+      data: { email: resp.email, username: resp.username },
+      token: key,
     });
-    console.log(resp);
-    return res
-      .status(200)
-      .json({ data: { email: resp.email, username: resp.username }, token });
   } catch (e) {
     return res.status(401).json({ data: "Error", e });
   }
+};
+
+exports.signIn = (req, res) => {
+  const { email, password } = req.body;
+  if (param(email) || param(password))
+    return res.status(400).json({ data: "Incomplete request" });
+  let obj = {};
+  const isEmail = verifyEmail(email);
+  if (isEmail) {
+    obj = { email };
+  } else if (verifyPhone(email) && phoneLength(email)) {
+    console.log("phone");
+  } else {
+    obj = { username: email };
+  }
+  User.login(obj, password, (err, user) => {
+    if (err) return res.status(401).json({ data: err });
+    const key = token(user._id);
+    res.status(200).json({
+      data: { email: user.email, username: user.username },
+      token: key,
+    });
+  });
+};
+
+exports.facebook = (req, res) => {
+  console.log(req);
+  // res.redirect("/");
+  const key = token(req.user._id);
+  res.status(200).json({
+    data: { email: user.email, username: user.username },
+    token: key,
+  });
+};
+
+exports.google = (req, res) => {
+  const user = req.session.passport.user;
+  const key = token(user.id);
+  res.status(200).json({
+    data: { email: user.email, name: `${user.lastName} ${user.firstName}` },
+    token: key,
+  });
+  // .redirect("/");
 };

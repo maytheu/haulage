@@ -13,5 +13,8 @@ module.exports = {
     //  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$/;
     if (check.test(value)) return true;
   },
-  verifyPhone: (value) => /^[0-9]{11,11}/.test(value),
+  verifyPhone: (value) => /^[0-9]/.test(value),
+  phoneLength: (val) => {
+    if (val.length > 10 && val.length < 12) return true;
+  },
 };
