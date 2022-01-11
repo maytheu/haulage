@@ -51,17 +51,19 @@ passport.use(
       proxy: true,
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(profile, "passport");
-      //   const existingUser = await User.findOne({ profileId: profile.id });
-      //   if (!existingUser) {
-      //     const user = new User();
-      //     user.profileId = profile.id;
-      //     user.name = profile.displayName;
-      //     user.email = profile.emails[0].value;
-      //     user.token = jwt.sign(user._id.toHexString(), process.env.SECRET);
-      //     user.save();
-      //     done(null, user);
-      //   }
+      const existingUser = await User.findOne({ profileId: profile.id });
+      if (!existingUser) {
+        const name = profile.displayName.split(" ");
+        const user = new User({
+          profileId: profile.id,
+          firstName: name[0],
+          lastName: name[1],
+          username: profile.username,
+        });
+        user.save();
+        return done(null, user);
+      }
+      return done(null, existingUser);
     }
   )
 );

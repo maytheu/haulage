@@ -26,6 +26,9 @@ const userSchema = mongoose.Schema({
   password: { type: String, minLength: 8 },
   firstName: String,
   lastName: String,
+  isSuperAdmin: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
+  adminRole: Number, //0-viewer,1-editor
   address: String,
   lockUntil: { type: Number, default: 0 },
   loginAttempt: { type: Number, default: 0 },
@@ -55,14 +58,26 @@ userSchema.statics.login = async function (body, password, cb) {
   try {
     const user = await this.findOne(body);
     if (!user) return cb("User not found");
-    console.log(user);
     user.comparePassword(password, (err, isMatch) => {
       if (err) return cb(err);
       if (!isMatch) return cb("Invalid");
       if (isMatch) return cb(null, user);
     });
   } catch (e) {
-    console.log(e);
+    cb(e);
+  }
+};
+
+userSchema.statics.phoneLogin = async function (id, password, cb) {
+  try {
+    const user = await this.findById(id);
+    if (!user) return cb("User not found");
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) return cb(err);
+      if (!isMatch) return cb("Invalid");
+      if (isMatch) return cb(null, user);
+    });
+  } catch (e) {
     cb(e);
   }
 };

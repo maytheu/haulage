@@ -1,5 +1,3 @@
-const passport = require("passport");
-
 const {
   param,
   verifyEmail,
@@ -69,7 +67,18 @@ exports.signIn = (req, res) => {
   if (isEmail) {
     obj = { email };
   } else if (verifyPhone(email) && phoneLength(email)) {
-    console.log("phone");
+    Phone.login(email, (err, phone) => {
+      if (err) return res.status(401).json({ data: err });
+      User.phoneLogin(phone.id, password, (err, user) => {
+        if (err) return res.status(401).json({ data: err });
+        const key = token(user._id);
+        res.status(200).json({
+          data: { phone: phone.phone, admin: user.isAdmin },
+          token: key,
+        });
+      });
+    });
+    return;
   } else {
     obj = { username: email };
   }
@@ -77,18 +86,22 @@ exports.signIn = (req, res) => {
     if (err) return res.status(401).json({ data: err });
     const key = token(user._id);
     res.status(200).json({
-      data: { email: user.email, username: user.username },
+      data: {
+        email: user.email,
+        username: user.username,
+        adminRole: user.adminRole,
+        super: user.isSuperAdmin,
+      },
       token: key,
     });
   });
 };
 
 exports.facebook = (req, res) => {
-  console.log(req);
-  // res.redirect("/");
-  const key = token(req.user._id);
+  const user = req.session.passport.user;
+  const key = token(user.id);
   res.status(200).json({
-    data: { email: user.email, username: user.username },
+    data: { email: user.email, name: `${user.lastName} ${user.firstName}` },
     token: key,
   });
 };
@@ -101,4 +114,9 @@ exports.google = (req, res) => {
     token: key,
   });
   // .redirect("/");
+};
+
+exports.logout = (req, res) => {
+  req.logout();
+  return res.status(200).json({ token: "" });
 };

@@ -6,6 +6,7 @@ const expressSession = require("express-session");
 require("dotenv").config();
 require("./utils/passport");
 
+const auth = require("./routes/authRoutes");
 const user = require("./routes/userRoutes");
 
 const session = {
@@ -28,7 +29,8 @@ app.get("/", (req, res) => {
   res.send("Welcome");
 });
 
-app.use("/api/auth", user);
+app.use("/api/auth", auth);
+app.use("/api/user/", user);
 
 if (app.get("env") === "production") {
   session.cookie.secure = true;
